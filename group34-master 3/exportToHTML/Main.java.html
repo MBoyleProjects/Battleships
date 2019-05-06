@@ -1,0 +1,215 @@
+<html>
+<head>
+<title>Main.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6a8759;}
+.s3 { color: #6897bb;}
+.s4 { color: #1b801a;}
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Main.java</font>
+</center></td></tr></table>
+<pre><a name="l1"><span class="ln">1    </span></a><span class="s0">package </span><span class="s1">application</span><span class="s0">;</span>
+
+import <span class="s1">java.io.IOException</span><span class="s0">;</span>
+
+import <span class="s1">javafx.application.Application</span><span class="s0">;</span>
+import <span class="s1">javafx.fxml.FXMLLoader</span><span class="s0">;</span>
+import <span class="s1">javafx.scene.Parent</span><span class="s0">;</span>
+import <span class="s1">javafx.scene.Scene</span><span class="s0">;</span>
+import <span class="s1">javafx.stage.Stage</span><span class="s0">;</span>
+
+public class <span class="s1">Main </span><span class="s0">extends </span><span class="s1">Application {</span>
+	Stage primaryStage<span class="s0">;</span>
+	<span class="s1">Client client</span><span class="s0">;</span>
+
+	<span class="s1">@Override</span>
+	<span class="s0">public void </span><span class="s1">start(Stage primaryStage) </span><span class="s0">throws </span><span class="s1">Exception {</span>
+		<span class="s0">this</span><span class="s1">.primaryStage = primaryStage</span><span class="s0">;</span>
+		<span class="s1">String host = </span><span class="s2">&quot;localhost&quot;</span><span class="s0">;</span>
+		int <span class="s1">port = </span><span class="s3">8888</span><span class="s0">;</span>
+		<span class="s1">client = </span><span class="s0">new </span><span class="s1">Client(host</span><span class="s0">, </span><span class="s1">port</span><span class="s0">, this</span><span class="s1">)</span><span class="s0">;</span><span class="s4">// this points to itself</span>
+		<span class="s1">primaryStage.setOnCloseRequest(event -&gt; {</span>
+			System.out.println(<span class="s2">&quot;Stage is closing&quot;</span><span class="s1">)</span><span class="s0">;</span>
+			<span class="s1">System.exit(</span><span class="s3">0</span><span class="s1">)</span><span class="s0">;</span>
+		<span class="s1">})</span><span class="s0">;</span>
+
+		<span class="s1">changeToLoginPage()</span><span class="s0">;</span>
+	<span class="s1">}</span>
+
+	<span class="s0">public void </span><span class="s1">changeToLoginPage() {</span>
+
+		<span class="s0">try </span><span class="s1">{</span>
+			FXMLLoader fxmlLoader = <span class="s0">new </span><span class="s1">FXMLLoader(getClass().getResource(</span><span class="s2">&quot;LoginPage.fxml&quot;</span><span class="s1">))</span><span class="s0">;</span>
+			<span class="s1">Parent root = fxmlLoader.load()</span><span class="s0">;</span>
+			<span class="s1">LoginPageController controller = fxmlLoader.getController()</span><span class="s0">;</span>
+			<span class="s1">controller.setClient(client)</span><span class="s0">;</span>
+			<span class="s1">controller.setMain(</span><span class="s0">this</span><span class="s1">)</span><span class="s0">;</span><span class="s4">// pointing to this instance</span>
+			<span class="s0">this</span><span class="s1">.client.setLoginPageController(controller)</span><span class="s0">;</span>
+			
+			<span class="s1">Scene scene = </span><span class="s0">new </span><span class="s1">Scene(root)</span><span class="s0">;</span>
+			<span class="s1">primaryStage.setScene(scene)</span><span class="s0">;</span>
+			<span class="s1">primaryStage.setResizable(</span><span class="s0">false</span><span class="s1">)</span><span class="s0">;</span>
+			<span class="s1">primaryStage.sizeToScene()</span><span class="s0">;</span>
+			<span class="s1">primaryStage.setTitle(</span><span class="s2">&quot;Battleships Login &amp; Signup&quot;</span><span class="s1">)</span><span class="s0">;</span>
+			<span class="s1">primaryStage.show()</span><span class="s0">;</span>
+
+		<span class="s1">} </span><span class="s0">catch </span><span class="s1">(IOException e) {</span>
+			e.printStackTrace()<span class="s0">;</span>
+		<span class="s1">}</span>
+	}
+
+	<span class="s0">public void </span><span class="s1">changeToRegisterScreen() {</span>
+		<span class="s0">try </span><span class="s1">{</span>
+			FXMLLoader fxmlLoader = <span class="s0">new </span><span class="s1">FXMLLoader(getClass().getResource(</span><span class="s2">&quot;RegisterUser.fxml&quot;</span><span class="s1">))</span><span class="s0">;</span>
+			<span class="s1">Parent root = fxmlLoader.load()</span><span class="s0">;</span>
+			<span class="s1">RegisterUserController controller = fxmlLoader.getController()</span><span class="s0">;</span>
+			<span class="s1">controller.setClient(client)</span><span class="s0">;</span>
+			<span class="s1">controller.setMain(</span><span class="s0">this</span><span class="s1">)</span><span class="s0">;</span>
+			this<span class="s1">.client.setRegisterUserController(controller)</span><span class="s0">;</span>
+
+			<span class="s1">Scene scene = </span><span class="s0">new </span><span class="s1">Scene(root)</span><span class="s0">;</span>
+			<span class="s1">primaryStage.setScene(scene)</span><span class="s0">;</span>
+			<span class="s1">primaryStage.setResizable(</span><span class="s0">false</span><span class="s1">)</span><span class="s0">;</span>
+			<span class="s1">primaryStage.sizeToScene()</span><span class="s0">;</span>
+			<span class="s1">primaryStage.setTitle(</span><span class="s2">&quot;Battleships Register User&quot;</span><span class="s1">)</span><span class="s0">;</span>
+			<span class="s1">primaryStage.show()</span><span class="s0">;</span>
+		<span class="s1">} </span><span class="s0">catch </span><span class="s1">(IOException e) {</span>
+			e.printStackTrace()<span class="s0">;</span>
+		<span class="s1">}</span>
+	}
+
+	<span class="s0">public void </span><span class="s1">changeToRegisterSuccessfulScreen() {</span>
+		<span class="s0">try </span><span class="s1">{</span>
+			FXMLLoader fxmlLoader = <span class="s0">new </span><span class="s1">FXMLLoader(getClass().getResource(</span><span class="s2">&quot;SuccessfulRegistration.fxml&quot;</span><span class="s1">))</span><span class="s0">;</span>
+			<span class="s1">Parent root = fxmlLoader.load()</span><span class="s0">;</span>
+			<span class="s1">SuccessfulRegistrationController controller = fxmlLoader.getController()</span><span class="s0">;</span>
+			<span class="s1">controller.setClient(client)</span><span class="s0">;</span>
+			<span class="s1">controller.setMain(</span><span class="s0">this</span><span class="s1">)</span><span class="s0">;</span>
+
+			<span class="s1">Scene scene = </span><span class="s0">new </span><span class="s1">Scene(root)</span><span class="s0">;</span>
+			<span class="s1">primaryStage.setScene(scene)</span><span class="s0">;</span>
+			<span class="s1">primaryStage.setResizable(</span><span class="s0">false</span><span class="s1">)</span><span class="s0">;</span>
+			<span class="s1">primaryStage.sizeToScene()</span><span class="s0">;</span>
+			<span class="s1">primaryStage.setTitle(</span><span class="s2">&quot;Successfully Registered!&quot;</span><span class="s1">)</span><span class="s0">;</span>
+			<span class="s1">primaryStage.show()</span><span class="s0">;</span>
+		<span class="s1">} </span><span class="s0">catch </span><span class="s1">(IOException e) {</span>
+			e.printStackTrace()<span class="s0">;</span>
+		<span class="s1">}</span>
+	}
+
+	<span class="s0">public void </span><span class="s1">changeToGameScreen() {</span>
+		<span class="s0">try </span><span class="s1">{</span>
+			FXMLLoader fxmlLoader = <span class="s0">new </span><span class="s1">FXMLLoader(getClass().getResource(</span><span class="s2">&quot;BoardGridUpdated.fxml&quot;</span><span class="s1">))</span><span class="s0">;</span>
+			<span class="s1">Parent root = fxmlLoader.load()</span><span class="s0">;</span>
+			<span class="s1">BoardScreenController controller = fxmlLoader.getController()</span><span class="s0">;</span>
+			<span class="s1">controller.setClient(client)</span><span class="s0">;</span>
+			<span class="s1">controller.setMain(</span><span class="s0">this</span><span class="s1">)</span><span class="s0">;</span>
+			<span class="s1">client.setBoardScreenController(controller)</span><span class="s0">;</span>
+
+			<span class="s1">Scene scene = </span><span class="s0">new </span><span class="s1">Scene(root)</span><span class="s0">;</span>
+			<span class="s1">primaryStage.setScene(scene)</span><span class="s0">;</span>
+			<span class="s1">primaryStage.setResizable(</span><span class="s0">false</span><span class="s1">)</span><span class="s0">;</span>
+			<span class="s1">primaryStage.sizeToScene()</span><span class="s0">;</span>
+			<span class="s1">primaryStage.setTitle(</span><span class="s2">&quot;Battleships Board Grid&quot;</span><span class="s1">)</span><span class="s0">;</span>
+			<span class="s1">primaryStage.show()</span><span class="s0">;</span>
+		<span class="s1">} </span><span class="s0">catch </span><span class="s1">(IOException e) {</span>
+			e.printStackTrace()<span class="s0">;</span>
+		<span class="s1">}</span>
+	}
+
+	<span class="s0">public void </span><span class="s1">gameStartResponse(String success) {</span>
+		<span class="s0">if </span><span class="s1">(success.equals(</span><span class="s2">&quot;true&quot;</span><span class="s1">)) {</span>
+			<span class="s0">try </span><span class="s1">{</span>
+				FXMLLoader fxmlLoader = <span class="s0">new </span><span class="s1">FXMLLoader(getClass().getResource(</span><span class="s2">&quot;BoardGridUpdated.fxml&quot;</span><span class="s1">))</span><span class="s0">;</span>
+				<span class="s1">Parent root = fxmlLoader.load()</span><span class="s0">;</span>
+				<span class="s1">BoardScreenController controller = fxmlLoader.getController()</span><span class="s0">;</span>
+				<span class="s1">controller.setClient(client)</span><span class="s0">;</span>
+				<span class="s1">controller.setMain(</span><span class="s0">this</span><span class="s1">)</span><span class="s0">;</span>
+				<span class="s1">client.setBoardScreenController(controller)</span><span class="s0">;</span>
+
+				<span class="s1">controller.startGameResponse(success)</span><span class="s0">;</span>
+
+				<span class="s1">Scene scene = </span><span class="s0">new </span><span class="s1">Scene(root)</span><span class="s0">;</span>
+				<span class="s1">primaryStage.setScene(scene)</span><span class="s0">;</span>
+				<span class="s1">primaryStage.setResizable(</span><span class="s0">false</span><span class="s1">)</span><span class="s0">;</span>
+				<span class="s1">primaryStage.sizeToScene()</span><span class="s0">;</span>
+				<span class="s1">primaryStage.setTitle(</span><span class="s2">&quot;Battleships Board Grid&quot;</span><span class="s1">)</span><span class="s0">;</span>
+				<span class="s1">primaryStage.show()</span><span class="s0">;</span>
+			<span class="s1">} </span><span class="s0">catch </span><span class="s1">(IOException e) {</span>
+				e.printStackTrace()<span class="s0">;</span>
+			<span class="s1">}</span>
+		}
+	}
+	
+	<span class="s0">public void </span><span class="s1">endGameWin() {</span>
+		<span class="s0">try </span><span class="s1">{</span>
+			FXMLLoader fxmlLoader = <span class="s0">new </span><span class="s1">FXMLLoader(getClass().getResource(</span><span class="s2">&quot;gameEndWin.fxml&quot;</span><span class="s1">))</span><span class="s0">;</span>
+			<span class="s1">Parent root = fxmlLoader.load()</span><span class="s0">;</span>
+			<span class="s1">endGameController controller = fxmlLoader.getController()</span><span class="s0">;</span>
+			<span class="s1">controller.setClient(client)</span><span class="s0">;</span>
+			<span class="s1">controller.setMain(</span><span class="s0">this</span><span class="s1">)</span><span class="s0">;</span>
+			<span class="s1">client.setEndGameController(controller)</span><span class="s0">;</span>
+
+
+			<span class="s1">Scene scene = </span><span class="s0">new </span><span class="s1">Scene(root)</span><span class="s0">;</span>
+			<span class="s1">primaryStage.setScene(scene)</span><span class="s0">;</span>
+			<span class="s1">primaryStage.setResizable(</span><span class="s0">false</span><span class="s1">)</span><span class="s0">;</span>
+			<span class="s1">primaryStage.sizeToScene()</span><span class="s0">;</span>
+			<span class="s1">primaryStage.setTitle(</span><span class="s2">&quot;Congratulations! You Won!&quot;</span><span class="s1">)</span><span class="s0">;</span>
+			<span class="s1">primaryStage.show()</span><span class="s0">;</span>
+		<span class="s1">} </span><span class="s0">catch </span><span class="s1">(IOException e) {</span>
+			e.printStackTrace()<span class="s0">;</span>
+		<span class="s1">}</span>
+	}
+	
+	<span class="s0">public void </span><span class="s1">endGameLoss() {</span>
+		<span class="s0">try </span><span class="s1">{</span>
+			FXMLLoader fxmlLoader = <span class="s0">new </span><span class="s1">FXMLLoader(getClass().getResource(</span><span class="s2">&quot;gameEndLoss.fxml&quot;</span><span class="s1">))</span><span class="s0">;</span>
+			<span class="s1">Parent root = fxmlLoader.load()</span><span class="s0">;</span>
+			<span class="s1">endGameController controller = fxmlLoader.getController()</span><span class="s0">;</span>
+			<span class="s1">controller.setClient(client)</span><span class="s0">;</span>
+			<span class="s1">controller.setMain(</span><span class="s0">this</span><span class="s1">)</span><span class="s0">;</span>
+			<span class="s1">client.setEndGameController(controller)</span><span class="s0">;</span>
+
+
+			<span class="s1">Scene scene = </span><span class="s0">new </span><span class="s1">Scene(root)</span><span class="s0">;</span>
+			<span class="s1">primaryStage.setScene(scene)</span><span class="s0">;</span>
+			<span class="s1">primaryStage.setResizable(</span><span class="s0">false</span><span class="s1">)</span><span class="s0">;</span>
+			<span class="s1">primaryStage.sizeToScene()</span><span class="s0">;</span>
+			<span class="s1">primaryStage.setTitle(</span><span class="s2">&quot;You Lost - Better Luck Next Time!&quot;</span><span class="s1">)</span><span class="s0">;</span>
+			<span class="s1">primaryStage.show()</span><span class="s0">;</span>
+		<span class="s1">} </span><span class="s0">catch </span><span class="s1">(IOException e) {</span>
+			e.printStackTrace()<span class="s0">;</span>
+		<span class="s1">}</span>
+		
+	}
+	
+<span class="s4">//   public void serverDisconnectError() {</span>
+//     System.out.println(&quot;the server disconnect error method has been called&quot;);
+//     Alert alert = new Alert(AlertType.WARNING);
+//       alert.setTitle(&quot;Warning Dialog&quot;);
+//     alert.setHeaderText(&quot;Look, a Warning Dialog&quot;);
+//        alert.setContentText(&quot;Careful with the next step!&quot;);
+//
+//        alert.show();
+//     
+//      
+//  }
+		
+	
+	<span class="s0">public static void </span><span class="s1">main(String[] args) {</span>
+		launch(args)<span class="s0">;</span>
+	<span class="s1">}</span>
+}
+</pre>
+</body>
+</html>

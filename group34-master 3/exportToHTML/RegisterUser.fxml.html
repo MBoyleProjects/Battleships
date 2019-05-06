@@ -1,0 +1,143 @@
+<html>
+<head>
+<title>RegisterUser.fxml</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #e8bf6a;}
+.s1 { color: #bababa;}
+.s2 { color: #6a8759;}
+.s3 { color: #a9b7c6;}
+.s4 { color: #6d9cbe;}
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+RegisterUser.fxml</font>
+</center></td></tr></table>
+<pre><a name="l1"><span class="ln">1    </span></a><span class="s0">&lt;?</span><span class="s1">xml version=</span><span class="s2">&quot;1.0&quot; </span><span class="s1">encoding=</span><span class="s2">&quot;UTF-8&quot;</span><span class="s0">?&gt;</span>
+
+&lt;?<span class="s1">import </span><span class="s2">javafx.scene.Cursor</span><span class="s0">?&gt;</span>
+&lt;?<span class="s1">import </span><span class="s2">javafx.scene.control.Button</span><span class="s0">?&gt;</span>
+&lt;?<span class="s1">import </span><span class="s2">javafx.scene.control.PasswordField</span><span class="s0">?&gt;</span>
+&lt;?<span class="s1">import </span><span class="s2">javafx.scene.control.TextField</span><span class="s0">?&gt;</span>
+&lt;?<span class="s1">import </span><span class="s2">javafx.scene.effect.DropShadow</span><span class="s0">?&gt;</span>
+&lt;?<span class="s1">import </span><span class="s2">javafx.scene.effect.Reflection</span><span class="s0">?&gt;</span>
+&lt;?<span class="s1">import </span><span class="s2">javafx.scene.image.Image</span><span class="s0">?&gt;</span>
+&lt;?<span class="s1">import </span><span class="s2">javafx.scene.image.ImageView</span><span class="s0">?&gt;</span>
+&lt;?<span class="s1">import </span><span class="s2">javafx.scene.layout.AnchorPane</span><span class="s0">?&gt;</span>
+&lt;?<span class="s1">import </span><span class="s2">javafx.scene.paint.LinearGradient</span><span class="s0">?&gt;</span>
+&lt;?<span class="s1">import </span><span class="s2">javafx.scene.paint.Stop</span><span class="s0">?&gt;</span>
+&lt;?<span class="s1">import </span><span class="s2">javafx.scene.text.Font</span><span class="s0">?&gt;</span>
+&lt;?<span class="s1">import </span><span class="s2">javafx.scene.text.Text</span><span class="s0">?&gt;</span>
+
+&lt;AnchorPane <span class="s1">maxHeight=</span><span class="s2">&quot;-Infinity&quot; </span><span class="s1">maxWidth=</span><span class="s2">&quot;-Infinity&quot; </span><span class="s1">minHeight=</span><span class="s2">&quot;-Infinity&quot; </span><span class="s1">minWidth=</span><span class="s2">&quot;-Infinity&quot; </span><span class="s1">prefHeight=</span><span class="s2">&quot;495.0&quot; </span><span class="s1">prefWidth=</span><span class="s2">&quot;722.0&quot; </span><span class="s1">xmlns=</span><span class="s2">&quot;http://javafx.com/javafx/8.0.171&quot; </span><span class="s1">xmlns:fx=</span><span class="s2">&quot;http://javafx.com/fxml/1&quot; </span><span class="s1">fx:controller=</span><span class="s2">&quot;application.RegisterUserController&quot;</span><span class="s0">&gt;</span>
+   &lt;children&gt;
+      &lt;ImageView <span class="s1">fitHeight=</span><span class="s2">&quot;496.0&quot; </span><span class="s1">fitWidth=</span><span class="s2">&quot;757.0&quot; </span><span class="s1">layoutX=</span><span class="s2">&quot;-1.0&quot; </span><span class="s1">pickOnBounds=</span><span class="s2">&quot;true&quot; </span><span class="s1">preserveRatio=</span><span class="s2">&quot;true&quot;</span><span class="s0">&gt;</span>
+         &lt;image&gt;
+            &lt;Image <span class="s1">url=</span><span class="s2">&quot;@Battleships%20bg2.jpg&quot; </span><span class="s0">/&gt;</span>
+         &lt;/image&gt;
+         &lt;cursor&gt;
+            &lt;Cursor <span class="s1">fx:constant=</span><span class="s2">&quot;CROSSHAIR&quot; </span><span class="s0">/&gt;</span>
+         &lt;/cursor&gt;
+      &lt;/ImageView&gt;
+      &lt;Text <span class="s1">layoutX=</span><span class="s2">&quot;30.0&quot; </span><span class="s1">layoutY=</span><span class="s2">&quot;184.0&quot; </span><span class="s1">strokeType=</span><span class="s2">&quot;OUTSIDE&quot; </span><span class="s1">strokeWidth=</span><span class="s2">&quot;0.0&quot; </span><span class="s1">text=</span><span class="s2">&quot;BATTLESHIPS&quot; </span><span class="s1">textAlignment=</span><span class="s2">&quot;CENTER&quot; </span><span class="s1">underline=</span><span class="s2">&quot;true&quot; </span><span class="s1">wrappingWidth=</span><span class="s2">&quot;534.0517578125&quot; </span><span class="s1">AnchorPane.bottomAnchor=</span><span class="s2">&quot;292.427734375&quot; </span><span class="s1">AnchorPane.leftAnchor=</span><span class="s2">&quot;30.0&quot; </span><span class="s1">AnchorPane.rightAnchor=</span><span class="s2">&quot;134.9482421875&quot; </span><span class="s1">AnchorPane.topAnchor=</span><span class="s2">&quot;104.146484375&quot;</span><span class="s0">&gt;</span>
+         &lt;font&gt;
+            &lt;Font <span class="s1">name=</span><span class="s2">&quot;System Bold Italic&quot; </span><span class="s1">size=</span><span class="s2">&quot;70.0&quot; </span><span class="s0">/&gt;</span>
+         &lt;/font&gt;
+         &lt;fill&gt;
+            &lt;LinearGradient <span class="s1">endX=</span><span class="s2">&quot;1.0&quot; </span><span class="s1">endY=</span><span class="s2">&quot;1.0&quot;</span><span class="s0">&gt;</span>
+               &lt;stops&gt;
+                  &lt;Stop <span class="s1">color=</span><span class="s2">&quot;#001297&quot; </span><span class="s0">/&gt;</span>
+                  &lt;Stop <span class="s1">color=</span><span class="s2">&quot;#001297&quot; </span><span class="s1">offset=</span><span class="s2">&quot;0.007662835249042145&quot; </span><span class="s0">/&gt;</span>
+                  &lt;Stop <span class="s1">color=</span><span class="s2">&quot;BLACK&quot; </span><span class="s1">offset=</span><span class="s2">&quot;1.0&quot; </span><span class="s0">/&gt;</span>
+               &lt;/stops&gt;
+            &lt;/LinearGradient&gt;
+         &lt;/fill&gt;
+         &lt;effect&gt;
+            &lt;DropShadow <span class="s1">color=</span><span class="s2">&quot;WHITE&quot; </span><span class="s1">radius=</span><span class="s2">&quot;13.7075&quot; </span><span class="s1">spread=</span><span class="s2">&quot;0.57&quot; </span><span class="s1">width=</span><span class="s2">&quot;35.83&quot; </span><span class="s0">/&gt;</span>
+         &lt;/effect&gt;
+      &lt;/Text&gt;
+      &lt;TextField <span class="s1">editable=</span><span class="s2">&quot;false&quot; </span><span class="s1">layoutX=</span><span class="s2">&quot;65.0&quot; </span><span class="s1">layoutY=</span><span class="s2">&quot;248.0&quot; </span><span class="s1">prefHeight=</span><span class="s2">&quot;25.0&quot; </span><span class="s1">prefWidth=</span><span class="s2">&quot;90.0&quot; </span><span class="s1">text=</span><span class="s2">&quot;Username:&quot;</span><span class="s0">&gt;</span>
+         &lt;effect&gt;
+            &lt;DropShadow <span class="s1">color=</span><span class="s2">&quot;#020b51&quot; </span><span class="s0">/&gt;</span>
+         &lt;/effect&gt;&lt;/TextField&gt;
+      &lt;TextField <span class="s1">editable=</span><span class="s2">&quot;false&quot; </span><span class="s1">layoutX=</span><span class="s2">&quot;65.0&quot; </span><span class="s1">layoutY=</span><span class="s2">&quot;283.0&quot; </span><span class="s1">prefHeight=</span><span class="s2">&quot;25.0&quot; </span><span class="s1">prefWidth=</span><span class="s2">&quot;90.0&quot; </span><span class="s1">text=</span><span class="s2">&quot;Password:&quot;</span><span class="s0">&gt;</span>
+         &lt;effect&gt;
+            &lt;DropShadow <span class="s1">color=</span><span class="s2">&quot;#1c1357&quot; </span><span class="s0">/&gt;</span>
+         &lt;/effect&gt;&lt;/TextField&gt;
+      &lt;TextField <span class="s1">fx:id=</span><span class="s2">&quot;RegUsernameBox&quot; </span><span class="s1">layoutX=</span><span class="s2">&quot;160.0&quot; </span><span class="s1">layoutY=</span><span class="s2">&quot;248.0&quot; </span><span class="s1">promptText=</span><span class="s2">&quot;Username&quot;</span><span class="s0">&gt;</span>
+         &lt;effect&gt;
+            &lt;DropShadow /&gt;
+         &lt;/effect&gt;
+      &lt;/TextField&gt;
+      &lt;PasswordField <span class="s1">fx:id=</span><span class="s2">&quot;RegPasswordBox&quot; </span><span class="s1">layoutX=</span><span class="s2">&quot;160.0&quot; </span><span class="s1">layoutY=</span><span class="s2">&quot;283.0&quot; </span><span class="s1">promptText=</span><span class="s2">&quot;Password&quot;</span><span class="s0">&gt;</span>
+         &lt;effect&gt;
+            &lt;DropShadow /&gt;
+         &lt;/effect&gt;
+      &lt;/PasswordField&gt;
+      &lt;Button <span class="s1">fx:id=</span><span class="s2">&quot;registerButton&quot; </span><span class="s1">layoutX=</span><span class="s2">&quot;99.0&quot; </span><span class="s1">layoutY=</span><span class="s2">&quot;375.0&quot; </span><span class="s1">mnemonicParsing=</span><span class="s2">&quot;false&quot; </span><span class="s1">onAction=</span><span class="s2">&quot;#registerUser&quot; </span><span class="s1">prefHeight=</span><span class="s2">&quot;25.0&quot; </span><span class="s1">prefWidth=</span><span class="s2">&quot;232.0&quot; </span><span class="s1">text=</span><span class="s2">&quot;Register - New Players&quot;</span><span class="s0">&gt;</span>
+         &lt;effect&gt;
+            &lt;Reflection <span class="s1">fraction=</span><span class="s2">&quot;0.56&quot; </span><span class="s1">topOpacity=</span><span class="s2">&quot;0.36&quot; </span><span class="s0">/&gt;</span>
+         &lt;/effect&gt;
+      &lt;/Button&gt;
+      &lt;Text <span class="s1">fill=</span><span class="s2">&quot;WHITE&quot; </span><span class="s1">layoutX=</span><span class="s2">&quot;67.0&quot; </span><span class="s1">layoutY=</span><span class="s2">&quot;108.0&quot; </span><span class="s1">strokeType=</span><span class="s2">&quot;OUTSIDE&quot; </span><span class="s1">strokeWidth=</span><span class="s2">&quot;0.0&quot; </span><span class="s1">text=</span><span class="s2">&quot;Welcome To&quot;</span><span class="s0">&gt;</span>
+         &lt;font&gt;
+            &lt;Font <span class="s1">name=</span><span class="s2">&quot;System Bold Italic&quot; </span><span class="s1">size=</span><span class="s2">&quot;25.0&quot; </span><span class="s0">/&gt;</span>
+         &lt;/font&gt;
+      &lt;/Text&gt;
+      &lt;Text <span class="s1">fx:id=</span><span class="s2">&quot;errorText&quot; </span><span class="s1">fill=</span><span class="s2">&quot;#d31818&quot; </span><span class="s1">layoutX=</span><span class="s2">&quot;64.0&quot; </span><span class="s1">layoutY=</span><span class="s2">&quot;453.0&quot; </span><span class="s1">strokeType=</span><span class="s2">&quot;OUTSIDE&quot; </span><span class="s1">strokeWidth=</span><span class="s2">&quot;0.0&quot; </span><span class="s1">text=</span><span class="s2">&quot;</span><span class="s4">&amp;quot;</span><span class="s2">Invalid Login. Please try again, or Register if you are a new user!</span><span class="s4">&amp;quot;</span><span class="s2">&quot; </span><span class="s1">underline=</span><span class="s2">&quot;true&quot; </span><span class="s1">visible=</span><span class="s2">&quot;false&quot;</span><span class="s0">&gt;</span>
+         &lt;font&gt;
+            &lt;Font <span class="s1">size=</span><span class="s2">&quot;14.0&quot; </span><span class="s0">/&gt;</span>
+         &lt;/font&gt;
+      &lt;/Text&gt;
+      &lt;TextField <span class="s1">editable=</span><span class="s2">&quot;false&quot; </span><span class="s1">layoutX=</span><span class="s2">&quot;20.0&quot; </span><span class="s1">layoutY=</span><span class="s2">&quot;315.0&quot; </span><span class="s1">prefHeight=</span><span class="s2">&quot;25.0&quot; </span><span class="s1">prefWidth=</span><span class="s2">&quot;134.0&quot; </span><span class="s1">text=</span><span class="s2">&quot;Confirm Password:&quot;</span><span class="s0">&gt;</span>
+         &lt;effect&gt;
+            &lt;DropShadow <span class="s1">color=</span><span class="s2">&quot;#091240&quot; </span><span class="s0">/&gt;</span>
+         &lt;/effect&gt;&lt;/TextField&gt;
+      &lt;PasswordField <span class="s1">fx:id=</span><span class="s2">&quot;confirmPasswordBox&quot; </span><span class="s1">layoutX=</span><span class="s2">&quot;160.0&quot; </span><span class="s1">layoutY=</span><span class="s2">&quot;315.0&quot; </span><span class="s1">promptText=</span><span class="s2">&quot;Confirm Password&quot;</span><span class="s0">&gt;</span>
+         &lt;effect&gt;
+            &lt;DropShadow /&gt;
+         &lt;/effect&gt;
+      &lt;/PasswordField&gt;
+      &lt;Text <span class="s1">fill=</span><span class="s2">&quot;WHITE&quot; </span><span class="s1">layoutX=</span><span class="s2">&quot;64.0&quot; </span><span class="s1">layoutY=</span><span class="s2">&quot;231.0&quot; </span><span class="s1">strokeType=</span><span class="s2">&quot;OUTSIDE&quot; </span><span class="s1">strokeWidth=</span><span class="s2">&quot;0.0&quot; </span><span class="s1">text=</span><span class="s2">&quot;Please Register Below&quot;</span><span class="s0">&gt;</span>
+         &lt;font&gt;
+            &lt;Font <span class="s1">size=</span><span class="s2">&quot;14.0&quot; </span><span class="s0">/&gt;</span>
+         &lt;/font&gt;
+         &lt;effect&gt;
+            &lt;DropShadow <span class="s1">color=</span><span class="s2">&quot;#0026ff&quot; </span><span class="s1">spread=</span><span class="s2">&quot;0.38&quot; </span><span class="s0">/&gt;</span>
+         &lt;/effect&gt;
+      &lt;/Text&gt;
+      &lt;Button <span class="s1">fx:id=</span><span class="s2">&quot;backButton&quot; </span><span class="s1">layoutX=</span><span class="s2">&quot;220.0&quot; </span><span class="s1">layoutY=</span><span class="s2">&quot;415.0&quot; </span><span class="s1">mnemonicParsing=</span><span class="s2">&quot;false&quot; </span><span class="s1">onAction=</span><span class="s2">&quot;#backToLogin&quot; </span><span class="s1">text=</span><span class="s2">&quot;Back to Log In&quot;</span><span class="s0">&gt;</span>
+         &lt;effect&gt;
+            &lt;Reflection <span class="s1">fraction=</span><span class="s2">&quot;0.54&quot; </span><span class="s1">topOpacity=</span><span class="s2">&quot;0.27&quot; </span><span class="s0">/&gt;</span>
+         &lt;/effect&gt;
+      &lt;/Button&gt;
+      &lt;Text <span class="s1">fx:id=</span><span class="s2">&quot;passwordMatchText&quot; </span><span class="s1">fill=</span><span class="s2">&quot;WHITE&quot; </span><span class="s1">layoutX=</span><span class="s2">&quot;63.0&quot; </span><span class="s1">layoutY=</span><span class="s2">&quot;362.0&quot; </span><span class="s1">strokeType=</span><span class="s2">&quot;OUTSIDE&quot; </span><span class="s1">strokeWidth=</span><span class="s2">&quot;0.0&quot; </span><span class="s1">text=</span><span class="s2">&quot;Please make sure your passwords match!&quot; </span><span class="s1">visible=</span><span class="s2">&quot;false&quot;</span><span class="s0">&gt;</span>
+         &lt;font&gt;
+            &lt;Font <span class="s1">size=</span><span class="s2">&quot;13.0&quot; </span><span class="s0">/&gt;</span>
+         &lt;/font&gt;
+         &lt;effect&gt;
+            &lt;DropShadow <span class="s1">color=</span><span class="s2">&quot;RED&quot; </span><span class="s1">spread=</span><span class="s2">&quot;0.5&quot; </span><span class="s0">/&gt;</span>
+         &lt;/effect&gt;
+      &lt;/Text&gt;
+      &lt;Text <span class="s1">fx:id=</span><span class="s2">&quot;usernameTakenText&quot; </span><span class="s1">fill=</span><span class="s2">&quot;WHITE&quot; </span><span class="s1">layoutX=</span><span class="s2">&quot;63.0&quot; </span><span class="s1">layoutY=</span><span class="s2">&quot;362.0&quot; </span><span class="s1">strokeType=</span><span class="s2">&quot;OUTSIDE&quot; </span><span class="s1">strokeWidth=</span><span class="s2">&quot;0.0&quot; </span><span class="s1">text=</span><span class="s2">&quot;That username is taken, try a different one!&quot; </span><span class="s1">visible=</span><span class="s2">&quot;false&quot;</span><span class="s0">&gt;</span>
+         &lt;font&gt;
+            &lt;Font <span class="s1">size=</span><span class="s2">&quot;13.0&quot; </span><span class="s0">/&gt;</span>
+         &lt;/font&gt;
+         &lt;effect&gt;
+            &lt;DropShadow <span class="s1">color=</span><span class="s2">&quot;RED&quot; </span><span class="s1">spread=</span><span class="s2">&quot;0.5&quot; </span><span class="s0">/&gt;</span>
+         &lt;/effect&gt;
+      &lt;/Text&gt;
+      &lt;Text <span class="s1">fx:id=</span><span class="s2">&quot;existingUserText&quot; </span><span class="s1">fill=</span><span class="s2">&quot;WHITE&quot; </span><span class="s1">layoutX=</span><span class="s2">&quot;20.0&quot; </span><span class="s1">layoutY=</span><span class="s2">&quot;361.0&quot; </span><span class="s1">strokeType=</span><span class="s2">&quot;OUTSIDE&quot; </span><span class="s1">strokeWidth=</span><span class="s2">&quot;0.0&quot; </span><span class="s1">text=</span><span class="s2">&quot;This user already exists! Please log in instead&quot; </span><span class="s1">visible=</span><span class="s2">&quot;false&quot;</span><span class="s0">&gt;</span>
+         &lt;effect&gt;
+            &lt;DropShadow <span class="s1">color=</span><span class="s2">&quot;#687aff&quot; </span><span class="s0">/&gt;</span>
+         &lt;/effect&gt;
+      &lt;/Text&gt;
+   &lt;/children&gt;
+&lt;/AnchorPane&gt;
+</pre>
+</body>
+</html>

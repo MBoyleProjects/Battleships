@@ -1,0 +1,347 @@
+<html>
+<head>
+<title>Server.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6897bb;}
+.s3 { color: #1b801a;}
+.s4 { color: #629755; font-style: italic;}
+.s5 { color: #629755; font-weight: bold; font-style: italic;}
+.s6 { color: #6a8759;}
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Server.java</font>
+</center></td></tr></table>
+<pre><a name="l1"><span class="ln">1    </span></a><span class="s0">package </span><span class="s1">application</span><span class="s0">;</span>
+
+import <span class="s1">java.io.IOException</span><span class="s0">;</span>
+import <span class="s1">java.io.ObjectInputStream</span><span class="s0">;</span>
+import <span class="s1">java.io.ObjectOutputStream</span><span class="s0">;</span>
+import <span class="s1">java.net.ServerSocket</span><span class="s0">;</span>
+import <span class="s1">java.net.Socket</span><span class="s0">;</span>
+import <span class="s1">java.util.ArrayList</span><span class="s0">;</span>
+import <span class="s1">java.util.Arrays</span><span class="s0">;</span>
+import <span class="s1">java.util.List</span><span class="s0">;</span>
+import <span class="s1">java.util.concurrent.ExecutorService</span><span class="s0">;</span>
+import <span class="s1">java.util.concurrent.Executors</span><span class="s0">;</span>
+
+import <span class="s1">gameLogic.Ship</span><span class="s0">;</span>
+
+public class <span class="s1">Server {</span>
+
+	<span class="s0">private </span><span class="s1">List&lt;ObjectOutputStream&gt; outputStreams</span><span class="s0">;</span>
+	private <span class="s1">ServerSocket serverSocket</span><span class="s0">;</span>
+	private <span class="s1">ExecutorService threadPool</span><span class="s0">;</span>
+	private <span class="s1">Ship[][] bothPlayersShips = </span><span class="s0">new </span><span class="s1">Ship[</span><span class="s2">2</span><span class="s1">][</span><span class="s2">6</span><span class="s1">]</span><span class="s0">; </span><span class="s3">// 2 = no. of players, 6 = number of ships each player gets.</span>
+	// bothPlayersShips[0] would give you all the ships belonging to player with
+	// userID 0 and bothPlayersShips[1] would give you all ships belonging to ID1
+	<span class="s0">private int </span><span class="s1">currentPlayersTurn = </span><span class="s2">0</span><span class="s0">;</span>
+
+	<span class="s4">/**</span>
+	 * Constructor
+	 * 
+	 * <span class="s5">@param </span><span class="s4">port port number</span>
+	 */
+	<span class="s0">public </span><span class="s1">Server(</span><span class="s0">int </span><span class="s1">port) {</span>
+		DatabaseMethods.setupConnection()<span class="s0">;</span>
+		<span class="s1">outputStreams = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span>
+
+		try <span class="s1">{</span>
+			<span class="s3">// initialise a fixed size thread pool that can allow up to 10 concurrent</span>
+			// threads
+			<span class="s1">threadPool = Executors.newFixedThreadPool(</span><span class="s2">2</span><span class="s1">)</span><span class="s0">;</span>
+			<span class="s3">// initialise ServerScocket obejct that will be used to accept new clients</span>
+			<span class="s1">serverSocket = </span><span class="s0">new </span><span class="s1">ServerSocket(port)</span><span class="s0">;</span>
+			<span class="s1">System.out.println(</span><span class="s6">&quot;Creating server on port &quot; </span><span class="s1">+ port)</span><span class="s0">;</span>
+
+			<span class="s3">// an infinite loop to accept clients indefinitely</span>
+			<span class="s0">while </span><span class="s1">(</span><span class="s0">true</span><span class="s1">) {</span>
+				System.out.println(<span class="s6">&quot;Waiting for client&quot;</span><span class="s1">)</span><span class="s0">;</span>
+				<span class="s3">// call .accept to wait for a new client to connect</span>
+				// a new socket object is returned by .accept when the
+				// new client connects successuly
+				<span class="s1">Socket newClient = serverSocket.accept()</span><span class="s0">;</span>
+				<span class="s3">// pass the socket created for the new client to a separate</span>
+				// ClientHandlerThread object and execute it on the threadpool
+				<span class="s1">threadPool.execute(</span><span class="s0">new </span><span class="s1">ClientHandlerThread(newClient))</span><span class="s0">;</span>
+			<span class="s1">}</span>
+		} <span class="s0">catch </span><span class="s1">(IOException e) {</span>
+			e.printStackTrace()<span class="s0">;</span>
+		<span class="s1">}</span>
+	}
+	<span class="s3">//</span>
+
+	<span class="s4">/**</span>
+	 * Inner class to represent a dedicated task that handles a particular client
+	 */
+	<span class="s0">private class </span><span class="s1">ClientHandlerThread </span><span class="s0">implements </span><span class="s1">Runnable {</span>
+
+		<span class="s0">private </span><span class="s1">Socket clientSocket</span><span class="s0">;</span>
+
+		private <span class="s1">ObjectInputStream fromClient</span><span class="s0">;</span>
+		private <span class="s1">ObjectOutputStream toClient</span><span class="s0">;</span>
+
+		int <span class="s1">playerNumber</span><span class="s0">;</span>
+
+		<span class="s4">/**</span>
+		 * Simple constructor that takes the public socket created by the
+		 * ServerSocket.accpet method
+		 * 
+		 * <span class="s5">@param </span><span class="s4">clientSocket</span>
+		 */
+		<span class="s0">public </span><span class="s1">ClientHandlerThread(Socket clientSocket) {</span>
+			<span class="s0">this</span><span class="s1">.clientSocket = clientSocket</span><span class="s0">;</span>
+		<span class="s1">}</span>
+
+		@Override
+		<span class="s0">public void </span><span class="s1">run() {</span>
+			System.out.println(<span class="s6">&quot;Connected to client&quot;</span><span class="s1">)</span><span class="s0">;</span>
+<span class="s3">//            response = new String[2];</span>
+
+			// wrap input/output streams
+			<span class="s0">synchronized </span><span class="s1">(outputStreams) {</span><span class="s3">// we want to make sure that we dont get two clients connecting at the same</span>
+											// time, otherwise theyb would both get playernumber = 0
+				<span class="s0">this</span><span class="s1">.playerNumber = outputStreams.size()</span><span class="s0">; </span><span class="s3">// we need to keep track of which streams belong to which</span>
+															// players.
+			<span class="s1">}</span>
+			<span class="s0">try </span><span class="s1">{</span>
+				toClient = <span class="s0">new </span><span class="s1">ObjectOutputStream(clientSocket.getOutputStream())</span><span class="s0">;</span>
+				<span class="s1">outputStreams.add(toClient)</span><span class="s0">;</span>
+				<span class="s1">fromClient = </span><span class="s0">new </span><span class="s1">ObjectInputStream(clientSocket.getInputStream())</span><span class="s0">;</span>
+			<span class="s1">} </span><span class="s0">catch </span><span class="s1">(IOException e1) {</span>
+				e1.printStackTrace()<span class="s0">;</span>
+			<span class="s1">}</span>
+
+			<span class="s0">while </span><span class="s1">(</span><span class="s0">true</span><span class="s1">) {</span>
+
+				<span class="s0">try </span><span class="s1">{</span>
+					String[] request = (String[]) fromClient.readObject()<span class="s0">;</span><span class="s3">// while(true)</span>
+					<span class="s1">System.out.println(</span><span class="s6">&quot;received &quot; </span><span class="s1">+ Arrays.toString(request))</span><span class="s0">;</span>
+
+					<span class="s1">String requestType = request[</span><span class="s2">0</span><span class="s1">]</span><span class="s0">;</span>
+
+					if <span class="s1">(requestType.equals(</span><span class="s6">&quot;LoginRequest&quot;</span><span class="s1">)) { </span><span class="s3">// request[1] = username, request[2] = password</span>
+						<span class="s0">if </span><span class="s1">(DatabaseMethods.loginUser(request[</span><span class="s2">1</span><span class="s1">]</span><span class="s0">, </span><span class="s1">request[</span><span class="s2">2</span><span class="s1">]) == </span><span class="s0">true</span><span class="s1">) {</span>
+							String[] response = { <span class="s6">&quot;LoginResponse&quot;</span><span class="s0">, </span><span class="s6">&quot;true&quot; </span><span class="s1">}</span><span class="s0">;</span>
+							<span class="s1">System.out.println(</span><span class="s6">&quot;Login Succeeded&quot; </span><span class="s1">+ Arrays.toString(response))</span><span class="s0">;</span>
+							<span class="s1">toClient.writeObject(response)</span><span class="s0">;</span>
+						<span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+							String[] response = { <span class="s6">&quot;LoginResponse&quot;</span><span class="s0">, </span><span class="s6">&quot;false&quot; </span><span class="s1">}</span><span class="s0">;</span>
+							<span class="s1">System.out.println(</span><span class="s6">&quot;Login failed&quot; </span><span class="s1">+ Arrays.toString(response))</span><span class="s0">;</span>
+							<span class="s1">toClient.writeObject(response)</span><span class="s0">;</span>
+						<span class="s1">}</span>
+					}
+
+					<span class="s0">else if </span><span class="s1">(requestType.equals(</span><span class="s6">&quot;RegisterRequest&quot;</span><span class="s1">)) {</span>
+						<span class="s0">if </span><span class="s1">(DatabaseMethods.registerUser(request[</span><span class="s2">1</span><span class="s1">]</span><span class="s0">, </span><span class="s1">request[</span><span class="s2">2</span><span class="s1">]) == </span><span class="s0">true</span><span class="s1">) { </span><span class="s3">// &amp;&amp;</span>
+																							// DatabaseMethods.usernameTaken(request[1])
+																							// == false
+							<span class="s1">String[] response = { </span><span class="s6">&quot;RegisterResponse&quot;</span><span class="s0">, </span><span class="s6">&quot;true&quot; </span><span class="s1">}</span><span class="s0">;</span>
+							<span class="s1">System.out.println(</span><span class="s6">&quot;Registering succeeded&quot; </span><span class="s1">+ Arrays.toString(response))</span><span class="s0">;</span>
+							<span class="s1">toClient.writeObject(response)</span><span class="s0">;</span>
+						<span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+							String[] response = { <span class="s6">&quot;RegisterResponse&quot;</span><span class="s0">, </span><span class="s6">&quot;false&quot; </span><span class="s1">}</span><span class="s0">;</span>
+							<span class="s1">System.out.println(</span><span class="s6">&quot;Registering failed&quot; </span><span class="s1">+ Arrays.toString(response))</span><span class="s0">;</span>
+							<span class="s1">toClient.writeObject(response)</span><span class="s0">;</span>
+						<span class="s1">}</span>
+					}
+
+					<span class="s0">else if </span><span class="s1">(requestType.equals(</span><span class="s6">&quot;GameStartRequest&quot;</span><span class="s1">)) {</span>
+						Ship destroyer = <span class="s0">new </span><span class="s1">Ship(</span><span class="s6">&quot;Destroyer&quot;</span><span class="s0">, </span><span class="s2">3</span><span class="s0">, </span><span class="s2">1</span><span class="s1">)</span><span class="s0">; </span><span class="s3">// size 3</span>
+						<span class="s1">Ship scout = </span><span class="s0">new </span><span class="s1">Ship(</span><span class="s6">&quot;Scout&quot;</span><span class="s0">, </span><span class="s2">2</span><span class="s0">, </span><span class="s2">2</span><span class="s1">)</span><span class="s0">; </span><span class="s3">// size 2</span>
+						<span class="s1">Ship submarine = </span><span class="s0">new </span><span class="s1">Ship(</span><span class="s6">&quot;Submarine&quot;</span><span class="s0">, </span><span class="s2">3</span><span class="s0">, </span><span class="s2">3</span><span class="s1">)</span><span class="s0">; </span><span class="s3">// size 3</span>
+						<span class="s1">Ship launchPad = </span><span class="s0">new </span><span class="s1">Ship(</span><span class="s6">&quot;Launch Pad&quot;</span><span class="s0">, </span><span class="s2">4</span><span class="s0">, </span><span class="s2">4</span><span class="s1">)</span><span class="s0">;</span><span class="s3">// size 4</span>
+						<span class="s1">Ship warship = </span><span class="s0">new </span><span class="s1">Ship(</span><span class="s6">&quot;Warship&quot;</span><span class="s0">, </span><span class="s2">2</span><span class="s0">, </span><span class="s2">5</span><span class="s1">)</span><span class="s0">; </span><span class="s3">// size 2</span>
+						<span class="s1">Ship paddleboat = </span><span class="s0">new </span><span class="s1">Ship(</span><span class="s6">&quot;Paddle Boat&quot;</span><span class="s0">, </span><span class="s2">1</span><span class="s0">, </span><span class="s2">6</span><span class="s1">)</span><span class="s0">;</span><span class="s3">// size 1</span>
+
+						// 0 = gamestartrequest
+						// 1,2,3 = destroyer coords
+						// 4,5 = scout coords
+						// 6,7,8 = submarine coords
+						// 9,10,11,12 = launchPad coords
+						// 13,14 = warship coords
+						// 15 = paddleboat coords.
+
+						<span class="s1">ArrayList&lt;String&gt; dcoords = </span><span class="s0">new </span><span class="s1">ArrayList&lt;String&gt;()</span><span class="s0">;</span>
+						<span class="s1">dcoords.add(request[</span><span class="s2">1</span><span class="s1">])</span><span class="s0">;</span>
+						<span class="s1">dcoords.add(request[</span><span class="s2">2</span><span class="s1">])</span><span class="s0">;</span>
+						<span class="s1">dcoords.add(request[</span><span class="s2">3</span><span class="s1">])</span><span class="s0">;</span>
+						<span class="s1">ArrayList&lt;String&gt; scoutcoords = </span><span class="s0">new </span><span class="s1">ArrayList&lt;String&gt;()</span><span class="s0">;</span>
+						<span class="s1">scoutcoords.add(request[</span><span class="s2">4</span><span class="s1">])</span><span class="s0">;</span>
+						<span class="s1">scoutcoords.add(request[</span><span class="s2">5</span><span class="s1">])</span><span class="s0">;</span>
+						<span class="s1">ArrayList&lt;String&gt; subcoords = </span><span class="s0">new </span><span class="s1">ArrayList&lt;String&gt;()</span><span class="s0">;</span>
+						<span class="s1">subcoords.add(request[</span><span class="s2">6</span><span class="s1">])</span><span class="s0">;</span>
+						<span class="s1">subcoords.add(request[</span><span class="s2">7</span><span class="s1">])</span><span class="s0">;</span>
+						<span class="s1">subcoords.add(request[</span><span class="s2">8</span><span class="s1">])</span><span class="s0">;</span>
+						<span class="s1">ArrayList&lt;String&gt; lcoords = </span><span class="s0">new </span><span class="s1">ArrayList&lt;String&gt;()</span><span class="s0">;</span>
+						<span class="s1">lcoords.add(request[</span><span class="s2">9</span><span class="s1">])</span><span class="s0">;</span>
+						<span class="s1">lcoords.add(request[</span><span class="s2">10</span><span class="s1">])</span><span class="s0">;</span>
+						<span class="s1">lcoords.add(request[</span><span class="s2">11</span><span class="s1">])</span><span class="s0">;</span>
+						<span class="s1">lcoords.add(request[</span><span class="s2">12</span><span class="s1">])</span><span class="s0">;</span>
+						<span class="s1">ArrayList&lt;String&gt; wcoords = </span><span class="s0">new </span><span class="s1">ArrayList&lt;String&gt;()</span><span class="s0">;</span>
+						<span class="s1">wcoords.add(request[</span><span class="s2">13</span><span class="s1">])</span><span class="s0">;</span>
+						<span class="s1">wcoords.add(request[</span><span class="s2">14</span><span class="s1">])</span><span class="s0">;</span>
+						<span class="s1">ArrayList&lt;String&gt; pcoords = </span><span class="s0">new </span><span class="s1">ArrayList&lt;String&gt;()</span><span class="s0">;</span>
+						<span class="s1">pcoords.add(request[</span><span class="s2">15</span><span class="s1">])</span><span class="s0">;</span>
+
+						<span class="s1">destroyer.setLocationCells(dcoords)</span><span class="s0">;</span>
+						<span class="s1">scout.setLocationCells(scoutcoords)</span><span class="s0">;</span>
+						<span class="s1">submarine.setLocationCells(subcoords)</span><span class="s0">;</span>
+						<span class="s1">launchPad.setLocationCells(lcoords)</span><span class="s0">;</span>
+						<span class="s1">warship.setLocationCells(wcoords)</span><span class="s0">;</span>
+						<span class="s1">paddleboat.setLocationCells(pcoords)</span><span class="s0">;</span>
+
+						<span class="s1">Ship[] ship = { destroyer</span><span class="s0">, </span><span class="s1">scout</span><span class="s0">, </span><span class="s1">submarine</span><span class="s0">, </span><span class="s1">launchPad</span><span class="s0">, </span><span class="s1">warship</span><span class="s0">, </span><span class="s1">paddleboat }</span><span class="s0">;</span>
+						<span class="s1">bothPlayersShips[playerNumber] = ship</span><span class="s0">;</span>
+						<span class="s1">System.out.println(</span><span class="s6">&quot;These ships have been initialised for player: &quot; </span><span class="s1">+ playerNumber)</span><span class="s0">;</span>
+						for <span class="s1">(Ship shipx : bothPlayersShips[playerNumber]) {</span>
+							System.out.println(shipx + shipx.getLocationCells().toString())<span class="s0">;</span>
+						<span class="s1">}</span>
+
+						<span class="s0">if </span><span class="s1">(bothPlayersShips[</span><span class="s2">1 </span><span class="s1">- playerNumber][</span><span class="s2">0</span><span class="s1">] != </span><span class="s0">null</span><span class="s1">) { </span><span class="s3">// check to ensure both players have</span>
+																				// uploaded their ship coordinates
+							<span class="s1">String gameStartSuccessful = </span><span class="s6">&quot;true&quot;</span><span class="s0">;</span>
+							<span class="s1">String[] response = { </span><span class="s6">&quot;GameStartResponse&quot;</span><span class="s0">, </span><span class="s1">gameStartSuccessful }</span><span class="s0">;</span>
+							for <span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">i &lt; outputStreams.size()</span><span class="s0">; </span><span class="s1">i++) {</span>
+								outputStreams.get(i).writeObject(response)<span class="s0">; </span><span class="s3">// if so, send successful response to both</span>
+																			// players
+							<span class="s1">}</span>
+						}
+
+					}
+
+					<span class="s0">else if </span><span class="s1">(requestType.equals(</span><span class="s6">&quot;AttackRequest&quot;</span><span class="s1">)) {</span>
+						String[] response1 = <span class="s0">null; </span><span class="s3">// back to self client</span>
+						<span class="s1">String[] response2 = </span><span class="s0">null; </span><span class="s3">// to opponent</span>
+						
+						
+						<span class="s0">if </span><span class="s1">(playerNumber == currentPlayersTurn) {</span>
+
+							String locationCoord = request[<span class="s2">1</span><span class="s1">]</span><span class="s0">;</span>
+							<span class="s1">String hitOrMiss = </span><span class="s6">&quot;miss&quot;</span><span class="s0">;</span>
+							<span class="s1">String sunkOrNot = </span><span class="s6">&quot;notSunk&quot;</span><span class="s0">;</span>
+							<span class="s3">//String gameOver = &quot;notGameOver&quot;;</span>
+							<span class="s1">String shipName = </span><span class="s0">null;</span>
+							<span class="s3">// where has just been attacked</span>
+							
+							//this part checks for hits
+							<span class="s0">for </span><span class="s1">(Ship ship : bothPlayersShips[</span><span class="s2">1 </span><span class="s1">- playerNumber]) { </span><span class="s3">// go through the enemy's ships</span>
+								<span class="s0">for </span><span class="s1">(String coord : ship.getLocationCells()) { </span><span class="s3">// for each cell's locationCells</span>
+									//System.out.println(&quot;checking request&quot; + locationCoord + &quot; against &quot; + ship.getName() + coord);
+									<span class="s0">if </span><span class="s1">(locationCoord.equals(coord)) { </span><span class="s3">// if one matches the attackRequest</span>
+										 //hitShip = ship;
+										// hitCoord = locationCoord.indexOf(coord);
+										<span class="s1">ship.getLocationCells().remove(coord)</span><span class="s0">; </span><span class="s3">// remove it</span>
+										<span class="s1">System.out.println(</span><span class="s6">&quot;we have removed &quot; </span><span class="s1">+ coord + </span><span class="s6">&quot; from &quot; </span><span class="s1">+ ship.getName() + ship.getLocationCells())</span><span class="s0">;</span>
+										<span class="s1">hitOrMiss = </span><span class="s6">&quot;hit&quot;</span><span class="s0">;</span>
+										<span class="s1">shipName = ship.getName()</span><span class="s0">;		</span>
+										break;
+									<span class="s1">}</span>
+								}
+								<span class="s0">for </span><span class="s1">(Ship shipsunk : bothPlayersShips[</span><span class="s2">1</span><span class="s1">-playerNumber]) {</span>
+									<span class="s0">if </span><span class="s1">(shipsunk.getName().equals(shipName) &amp;&amp; shipsunk.getLocationCells().isEmpty()) {</span>
+										sunkOrNot = <span class="s6">&quot;sunk&quot;</span><span class="s0">;</span>
+									<span class="s1">}</span>
+									<span class="s0">else if </span><span class="s1">(shipName == </span><span class="s0">null</span><span class="s1">){</span>
+										System.out.println(<span class="s6">&quot;no ship hit this turn&quot;</span><span class="s1">)</span><span class="s0">;</span>
+									<span class="s1">}</span>
+									
+								}
+							}
+							<span class="s0">if </span><span class="s1">(isGameOver() == </span><span class="s0">true</span><span class="s1">) {</span>
+								response1 = <span class="s0">new </span><span class="s1">String[] { </span><span class="s6">&quot;gameOver&quot;</span><span class="s0">, </span><span class="s6">&quot;win&quot;</span><span class="s1">}</span><span class="s0">;</span>
+								<span class="s1">response2 = </span><span class="s0">new </span><span class="s1">String[] { </span><span class="s6">&quot;gameOver&quot;</span><span class="s0">, </span><span class="s6">&quot;loss&quot;</span><span class="s1">}</span><span class="s0">;</span>
+								
+							<span class="s1">} </span><span class="s0">else if </span><span class="s1">(isGameOver() == </span><span class="s0">false</span><span class="s1">) {</span>
+
+							response1 = <span class="s0">new </span><span class="s1">String[] { </span><span class="s6">&quot;SelfAttackResponse&quot;</span><span class="s0">, </span><span class="s1">locationCoord</span><span class="s0">, </span><span class="s1">hitOrMiss</span><span class="s0">, </span><span class="s1">sunkOrNot</span><span class="s0">,</span>
+										<span class="s1">shipName}</span><span class="s0">; </span><span class="s3">// what you've done</span>
+							<span class="s1">response2 = </span><span class="s0">new </span><span class="s1">String[] { </span><span class="s6">&quot;OpponentAttackResponse&quot;</span><span class="s0">, </span><span class="s1">locationCoord</span><span class="s0">, </span><span class="s1">hitOrMiss</span><span class="s0">, </span><span class="s1">sunkOrNot</span><span class="s0">,</span>
+									    <span class="s1">shipName }</span><span class="s0">; </span><span class="s3">// what the enemy's done</span>
+							<span class="s1">}</span>
+							
+							System.out.println(<span class="s6">&quot;Sending response 1&quot; </span><span class="s1">+ Arrays.toString(response1))</span><span class="s0">;</span>
+							
+							<span class="s1">outputStreams.get(playerNumber).writeObject(response1)</span><span class="s0">; </span><span class="s3">// return selfAttackResponse to</span>
+																					// client who sent it, should update
+																					// gui for current client in client
+																					// method
+							<span class="s1">outputStreams.get(</span><span class="s2">1 </span><span class="s1">- playerNumber).writeObject(response2)</span><span class="s0">; </span><span class="s3">// send OpponentAttackRequest to</span>
+																						// opponent client, should
+																						// update their gui board in
+																						// client method.
+
+							<span class="s1">currentPlayersTurn = </span><span class="s2">1 </span><span class="s1">- currentPlayersTurn</span><span class="s0">; </span><span class="s3">// change currentPlayers turn to be the other</span>
+																			// players. this should be the last line of
+																				// code.
+							
+						<span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+							<span class="s3">// TODO fire back response to tell player that it isn't their turn</span>
+							<span class="s1">System.out.println(</span><span class="s6">&quot;it is not your turn yet! Please wait until the other player has made a move.&quot;</span><span class="s1">)</span><span class="s0">;</span>
+							<span class="s1">String[] response3 = {</span><span class="s6">&quot;NotYourTurn&quot;</span><span class="s0">, </span><span class="s6">&quot;true&quot;</span><span class="s1">}</span><span class="s0">;</span>
+								<span class="s1">outputStreams.get(playerNumber).writeObject(response3)</span><span class="s0">;</span>
+						<span class="s1">}</span>
+					}
+						
+						<span class="s0">else if </span><span class="s1">(requestType.equals(</span><span class="s6">&quot;SurrenderRequest&quot;</span><span class="s1">)) {</span>
+							<span class="s0">if </span><span class="s1">(request[</span><span class="s2">1</span><span class="s1">].equals(</span><span class="s6">&quot;true&quot;</span><span class="s1">)) {</span>
+							String[] response1 = <span class="s0">new </span><span class="s1">String[] { </span><span class="s6">&quot;gameOver&quot;</span><span class="s0">, </span><span class="s6">&quot;win&quot;</span><span class="s1">}</span><span class="s0">;</span>
+							<span class="s1">String[] response2 = </span><span class="s0">new </span><span class="s1">String[] { </span><span class="s6">&quot;gameOver&quot;</span><span class="s0">, </span><span class="s6">&quot;loss&quot;</span><span class="s1">}</span><span class="s0">;</span>
+							
+							<span class="s1">outputStreams.get(</span><span class="s2">1</span><span class="s1">-playerNumber).writeObject(response1)</span><span class="s0">;</span>
+							<span class="s1">outputStreams.get(playerNumber).writeObject(response2)</span><span class="s0">;</span>
+							<span class="s1">}</span>
+						}
+						
+						
+					 <span class="s0">else </span><span class="s1">{</span>
+						System.out.println(<span class="s6">&quot;invalid request type&quot;</span><span class="s1">)</span><span class="s0">;</span>
+					<span class="s1">}</span>
+
+					toClient.flush()<span class="s0">;</span>
+
+					<span class="s3">//catch if one client disconnects mid game</span>
+				<span class="s1">} </span><span class="s0">catch </span><span class="s1">(IOException | ClassNotFoundException e) {</span>
+					System.out.println(<span class="s6">&quot;client disconnect Exception&quot;</span><span class="s1">)</span><span class="s0">;</span>
+					<span class="s1">String[] clientDisconnected = {</span><span class="s6">&quot;ClientDisconnected&quot;</span><span class="s0">, </span><span class="s6">&quot;true&quot;</span><span class="s1">}</span><span class="s0">;</span>
+					
+					try <span class="s1">{</span>
+						outputStreams.get(<span class="s2">1</span><span class="s1">-playerNumber).writeObject(clientDisconnected)</span><span class="s0">;</span>
+					<span class="s1">} </span><span class="s0">catch </span><span class="s1">(IOException e1) {</span>
+						e1.printStackTrace()<span class="s0">;</span>
+					<span class="s1">}</span>
+					outputStreams.remove(playerNumber)<span class="s0">;</span>
+					return;
+				<span class="s1">}</span>
+			}
+				
+	}
+	
+			<span class="s0">public boolean </span><span class="s1">isGameOver() {</span>
+				<span class="s0">for </span><span class="s1">(Ship ship : bothPlayersShips[</span><span class="s2">1</span><span class="s1">-playerNumber]) {</span>
+					<span class="s0">if </span><span class="s1">(ship.getLocationCells().isEmpty() == </span><span class="s0">false</span><span class="s1">) {</span>
+						<span class="s0">return false;</span>
+					<span class="s1">}</span>
+				}
+				<span class="s0">return true;</span>
+			<span class="s1">}</span>
+	}
+	
+	
+
+	<span class="s0">public static void </span><span class="s1">main(String[] args) {</span>
+		<span class="s0">int </span><span class="s1">port = </span><span class="s2">8888</span><span class="s0">;</span>
+		new <span class="s1">Server(port)</span><span class="s0">;</span>
+	<span class="s1">}</span>
+}
+
+</pre>
+</body>
+</html>

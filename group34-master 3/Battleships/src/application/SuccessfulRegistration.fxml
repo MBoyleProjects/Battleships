@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="281.0" prefWidth="452.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SuccessfulRegistrationController">
+   <children>
+      <Text layoutX="20.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Registration Successful!">
+         <font>
+            <Font size="35.0" />
+         </font>
+      </Text>
+      <Text layoutX="55.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please either return to login or register a new user">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Button fx:id="backToLoginButton" layoutX="181.0" layoutY="163.0" mnemonicParsing="false" onAction="#backToLogin" text="Back To Login" />
+      <Button fx:id="backToRegisterButton" layoutX="150.0" layoutY="202.0" mnemonicParsing="false" onAction="#backToRegister" text="Register Another User" />
+   </children>
+</AnchorPane>

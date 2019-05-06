@@ -1,0 +1,112 @@
+<html>
+<head>
+<title>RegisterUserController.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #1b801a;}
+.s3 { color: #6a8759;}
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+RegisterUserController.java</font>
+</center></td></tr></table>
+<pre><a name="l1"><span class="ln">1    </span></a><span class="s0">package </span><span class="s1">application</span><span class="s0">;</span>
+import <span class="s1">javafx.application.Platform</span><span class="s0">;</span>
+import <span class="s1">javafx.event.ActionEvent</span><span class="s0">;</span>
+import <span class="s1">javafx.fxml.FXML</span><span class="s0">;</span>
+import <span class="s1">javafx.scene.control.Button</span><span class="s0">;</span>
+import <span class="s1">javafx.scene.control.PasswordField</span><span class="s0">;</span>
+import <span class="s1">javafx.scene.control.TextField</span><span class="s0">;</span>
+import <span class="s1">javafx.scene.text.Text</span><span class="s0">;</span>
+
+public class <span class="s1">RegisterUserController {</span>
+
+	@FXML
+	<span class="s0">private </span><span class="s1">TextField RegUsernameBox</span><span class="s0">;</span>
+	<span class="s1">@FXML</span>
+	<span class="s0">private </span><span class="s1">PasswordField RegPasswordBox</span><span class="s0">;</span>
+	<span class="s1">@FXML</span>
+	<span class="s0">private </span><span class="s1">PasswordField confirmPasswordBox</span><span class="s0">;</span>
+	<span class="s1">@FXML</span>
+	<span class="s0">private </span><span class="s1">Text passwordMatchText</span><span class="s0">;</span>
+	<span class="s1">@FXML</span>
+	<span class="s0">private </span><span class="s1">Text existingUserText</span><span class="s0">;</span>
+	<span class="s1">@FXML</span>
+	<span class="s0">private </span><span class="s1">Button registerButton</span><span class="s0">;</span>
+	<span class="s1">@FXML</span>
+	<span class="s0">private </span><span class="s1">Button backButton</span><span class="s0">;</span>
+
+	private <span class="s1">Client client</span><span class="s0">;</span>
+	private <span class="s1">Main myGUI</span><span class="s0">; </span>
+
+	<span class="s1">@FXML</span>
+	<span class="s2">// this method registers the new user</span>
+	<span class="s0">protected void </span><span class="s1">registerUser(ActionEvent event) {</span>
+		existingUserText.setVisible(<span class="s0">false</span><span class="s1">)</span><span class="s0">;</span>
+		<span class="s1">passwordMatchText.setVisible(</span><span class="s0">false</span><span class="s1">)</span><span class="s0">;</span>
+	
+		if <span class="s1">(!RegUsernameBox.getText().isEmpty() &amp;&amp; !RegPasswordBox.getText().isEmpty()</span>
+				&amp;&amp; !confirmPasswordBox.getText().isEmpty()) { <span class="s2">// check if user/pass boxes have</span>
+
+			<span class="s1">String username = RegUsernameBox.getText()</span><span class="s0">;</span>
+			<span class="s1">String password = RegPasswordBox.getText()</span><span class="s0">;</span>
+			<span class="s1">String confirmPassword = confirmPasswordBox.getText()</span><span class="s0">;</span>
+
+			if <span class="s1">(password.equals(confirmPassword))  { </span><span class="s2">//make sure that the passwords match and username isnt taken</span>
+				<span class="s0">this</span><span class="s1">.client.registerRequest(username</span><span class="s0">, </span><span class="s1">password)</span><span class="s0">;</span>
+				<span class="s1">System.out.println(</span><span class="s3">&quot;Register User Attempted with Username: &quot; </span><span class="s1">+ username + </span><span class="s3">&quot; and Password: &quot; </span><span class="s1">+ password</span>
+						+ <span class="s3">&quot; and confirmPassword: &quot; </span><span class="s1">+ confirmPassword)</span><span class="s0">;</span>
+			<span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+				passwordMatchText.setVisible(<span class="s0">true</span><span class="s1">)</span><span class="s0">;</span>
+				<span class="s2">//usernameTakenText.setVisible(false);</span>
+				<span class="s1">System.out.println(</span><span class="s3">&quot;Your passwords do not match!&quot;</span><span class="s1">)</span><span class="s0">;</span>
+
+			<span class="s1">}</span>
+		}
+		<span class="s0">else </span><span class="s1">{</span>
+			System.out.println(<span class="s3">&quot;Please make sure the boxes are not empty!&quot;</span><span class="s1">)</span><span class="s0">;</span>
+		<span class="s1">}</span>
+	}
+
+	@FXML
+	<span class="s2">// this method takes the user back to the LoginPage when they are on the</span>
+	// registerUser page
+	<span class="s0">protected void </span><span class="s1">backToLogin(ActionEvent event) {</span>
+		
+			Platform.runLater(<span class="s0">new </span><span class="s1">Runnable() { </span><span class="s2">//we do this because javafx needs to run on the javafx thread, else it wont work.</span>
+			<span class="s1">@Override</span>
+			<span class="s0">public void </span><span class="s1">run() {</span>
+				myGUI.changeToLoginPage()<span class="s0">;</span>
+			<span class="s1">}</span>
+				
+			}	
+		)<span class="s0">;</span>
+	<span class="s1">}</span>
+			
+	<span class="s0">public void </span><span class="s1">userExistsAlready() {</span>
+		existingUserText.setVisible(<span class="s0">true</span><span class="s1">)</span><span class="s0">;</span>
+		<span class="s1">passwordMatchText.setVisible(</span><span class="s0">false</span><span class="s1">)</span><span class="s0">;</span>
+		
+	<span class="s1">}</span>
+		
+	<span class="s0">public </span><span class="s1">Client getClient() {</span>
+		<span class="s0">return </span><span class="s1">client</span><span class="s0">;</span>
+	<span class="s1">}</span>
+	<span class="s0">public void </span><span class="s1">setClient(Client client) {</span>
+		<span class="s0">this</span><span class="s1">.client = client</span><span class="s0">; </span>
+		
+	<span class="s1">}</span>
+	<span class="s0">public void </span><span class="s1">setMain(Main main) {</span>
+		<span class="s0">this</span><span class="s1">.myGUI = main</span><span class="s0">;</span>
+	<span class="s1">}</span>
+
+}
+</pre>
+</body>
+</html>

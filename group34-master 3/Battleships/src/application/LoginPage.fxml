@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.Reflection?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="718.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.LoginPageController">
+   <children>
+      <ImageView fitHeight="496.0" fitWidth="791.0" layoutX="-3.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Battleships%20bg2.jpg" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="CROSSHAIR" />
+         </cursor>
+      </ImageView>
+      <Text layoutX="14.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BATTLESHIPS" textAlignment="CENTER" underline="true" wrappingWidth="534.0517578125" AnchorPane.bottomAnchor="297.6826171875" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="169.9482421875" AnchorPane.topAnchor="105.5419921875">
+         <font>
+            <Font name="System Bold Italic" size="69.0" />
+         </font>
+         <fill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="#001297" />
+                  <Stop color="#001297" offset="0.007662835249042145" />
+                  <Stop color="BLACK" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </fill>
+         <effect>
+            <DropShadow color="WHITE" radius="13.7075" spread="0.57" width="35.83" />
+         </effect>
+      </Text>
+      <TextField editable="false" layoutX="50.0" layoutY="248.0" prefHeight="25.0" prefWidth="90.0" text="Username:" />
+      <TextField editable="false" layoutX="50.0" layoutY="283.0" prefHeight="25.0" prefWidth="90.0" text="Password:" />
+      <TextField fx:id="usernameBox" layoutX="148.0" layoutY="248.0" promptText="Username">
+         <effect>
+            <DropShadow />
+         </effect>
+      </TextField>
+      <PasswordField fx:id="passwordBox" layoutX="148.0" layoutY="283.0" promptText="Password">
+         <effect>
+            <DropShadow />
+         </effect>
+      </PasswordField>
+      <Button fx:id="LogInButton" layoutX="260.0" layoutY="330.0" mnemonicParsing="false" onMouseClicked="#loginAttempt" text="Log In">
+         <effect>
+            <Reflection fraction="0.51" topOpacity="0.27" />
+         </effect>
+      </Button>
+      <Button fx:id="toRegisterPageButton" layoutX="154.0" layoutY="372.0" mnemonicParsing="false" onAction="#changeToRegisterPage" text="Register - New Players">
+         <effect>
+            <Reflection fraction="0.56" topOpacity="0.36" />
+         </effect>
+      </Button>
+      <Text fill="WHITE" layoutX="67.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome To">
+         <font>
+            <Font name="System Bold Italic" size="25.0" />
+         </font>
+      </Text>
+      <Text fx:id="errorText" fill="WHITE" layoutX="64.0" layoutY="453.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Invalid Login. Please try again, or Register if you are a new user!" underline="true" visible="false">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <effect>
+            <DropShadow color="RED" />
+         </effect>
+      </Text>
+        <Text fx:id="loginInvalidText" fill="WHITE" layoutX="64.0" layoutY="453.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username or password doesn't match, please try again or register if you are a new user!" underline="true" visible="false">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <effect>
+            <DropShadow color="RED" />
+         </effect>
+      </Text>
+      <Text fx:id="loginSuccessful" fill="WHITE" layoutX="188.0" layoutY="424.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Login Successful!" underline="true" visible="false">
+         <font>
+            <Font name="System Bold Italic" size="14.0" />
+         </font>
+         <effect>
+            <DropShadow color="RED" />
+         </effect>
+      </Text>
+      <Text fill="WHITE" layoutX="67.0" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter your credentials">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <effect>
+            <DropShadow color="#0700ff" spread="0.33" />
+         </effect>
+      </Text>
+   </children>
+</AnchorPane>

@@ -1,0 +1,460 @@
+<html>
+<head>
+<title>BoardScreenController.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6897bb;}
+.s3 { color: #1b801a;}
+.s4 { color: #6a8759;}
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+BoardScreenController.java</font>
+</center></td></tr></table>
+<pre><a name="l1"><span class="ln">1    </span></a><span class="s0">package </span><span class="s1">application</span><span class="s0">;</span>
+import <span class="s1">java.util.ArrayList</span><span class="s0">;</span>
+import <span class="s1">java.util.Arrays</span><span class="s0">;</span>
+import <span class="s1">java.util.Random</span><span class="s0">;</span>
+
+import <span class="s1">gameLogic.Ship</span><span class="s0">;</span>
+import <span class="s1">javafx.collections.ObservableList</span><span class="s0">;</span>
+import <span class="s1">javafx.event.ActionEvent</span><span class="s0">;</span>
+import <span class="s1">javafx.fxml.FXML</span><span class="s0">;</span>
+import <span class="s1">javafx.scene.Node</span><span class="s0">;</span>
+import <span class="s1">javafx.scene.control.Button</span><span class="s0">;</span>
+import <span class="s1">javafx.scene.control.TextArea</span><span class="s0">;</span>
+import <span class="s1">javafx.scene.layout.Border</span><span class="s0">;</span>
+import <span class="s1">javafx.scene.layout.GridPane</span><span class="s0">;</span>
+import <span class="s1">javafx.scene.paint.Color</span><span class="s0">;</span>
+
+public class <span class="s1">BoardScreenController {</span>
+
+    @FXML
+    <span class="s0">private </span><span class="s1">GridPane EnemyGridPane</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e00</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e10</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e19</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e52</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e20</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e30</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e40</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e50</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e60</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e70</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e80</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e90</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e02</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e03</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e05</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e09</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e21</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e11</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e72</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e62</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e42</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e32</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e22</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e12</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e91</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e81</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e71</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e61</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e51</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e41</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e31</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e93</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e83</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e73</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e63</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e43</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e33</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e23</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e13</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e92</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e82</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e98</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e88</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e78</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e68</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e48</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e38</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e28</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e18</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e08</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e97</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e87</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e77</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e67</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e47</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e37</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e27</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e17</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e07</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e96</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e86</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e76</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e66</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e45</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e35</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e25</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e15</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e94</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e84</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e64</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e74</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e44</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e34</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e24</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e14</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e04</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e46</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e36</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e26</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e99</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e16</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e06</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e95</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e85</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e75</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e65</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e89</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e79</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e69</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e49</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e39</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e29</span><span class="s0">;</span>
+    <span class="s1">@FXML	 </span><span class="s0">private </span><span class="s1">Button e58</span><span class="s0">;    </span><span class="s1">@FXML 	 </span><span class="s0">private </span><span class="s1">Button e57</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button e56</span><span class="s0">;    </span><span class="s1">@FXML 	 </span><span class="s0">private </span><span class="s1">Button e55</span><span class="s0">;</span>
+    <span class="s1">@FXML	 </span><span class="s0">private </span><span class="s1">Button e54</span><span class="s0">;	</span><span class="s1">@FXML 	 </span><span class="s0">private </span><span class="s1">Button e53</span><span class="s0">;	</span><span class="s1">@FXML 	 </span><span class="s0">private </span><span class="s1">Button e59</span><span class="s0">;	</span><span class="s1">@FXML	 </span><span class="s0">private </span><span class="s1">Button e01</span><span class="s0">;</span>
+    
+    <span class="s1">@FXML</span>
+    <span class="s0">private </span><span class="s1">GridPane PlayerGridPane</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b00</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b10</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b19</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b52</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b20</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b30</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b40</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b50</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b60</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b70</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b80</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b90</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b02</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b03</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b05</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b09</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b21</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b11</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b72</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b62</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b42</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b32</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b22</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b12</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b91</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b81</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b71</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b61</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b51</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b41</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b31</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b93</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b83</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b73</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b63</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b43</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b33</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b23</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b13</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b92</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b82</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b98</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b88</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b78</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b68</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b48</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b38</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b28</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b18</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b08</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b97</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b87</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b77</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b67</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b47</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b37</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b27</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b17</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b07</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b96</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b86</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b76</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b66</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b45</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b35</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b25</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b15</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b94</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b84</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b64</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b74</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b44</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b34</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b24</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b14</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b04</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b46</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b36</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b26</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b99</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b16</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b06</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b95</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b85</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b75</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b65</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b89</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b79</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b69</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b49</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b39</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b29</span><span class="s0">;</span>
+    <span class="s1">@FXML	 </span><span class="s0">private </span><span class="s1">Button b58</span><span class="s0">;    </span><span class="s1">@FXML 	 </span><span class="s0">private </span><span class="s1">Button b57</span><span class="s0">;    </span><span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button b56</span><span class="s0">;    </span><span class="s1">@FXML 	 </span><span class="s0">private </span><span class="s1">Button b55</span><span class="s0">;</span>
+    <span class="s1">@FXML	 </span><span class="s0">private </span><span class="s1">Button b54</span><span class="s0">;    </span><span class="s1">@FXML	 </span><span class="s0">private </span><span class="s1">Button b53</span><span class="s0">;	</span><span class="s1">@FXML 	 </span><span class="s0">private </span><span class="s1">Button b59</span><span class="s0">;	</span><span class="s1">@FXML 	 </span><span class="s0">private </span><span class="s1">Button b01</span><span class="s0">;</span>
+   
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button PlaceShipsButton</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button startGameButton</span><span class="s0">;</span>
+    <span class="s1">@FXML    </span><span class="s0">private </span><span class="s1">Button surrenderButton</span><span class="s0">;</span>
+    
+    <span class="s1">@FXML	 </span><span class="s0">private </span><span class="s1">TextArea gameMoveText</span><span class="s0">;</span>
+        
+	private <span class="s1">Client client</span><span class="s0">;</span>
+	private <span class="s1">Main myGUI</span><span class="s0">;</span>
+	
+	<span class="s1">Ship destroyer</span><span class="s0">;</span>
+	<span class="s1">Ship scout</span><span class="s0">;</span>
+	<span class="s1">Ship submarine</span><span class="s0">;</span>
+	<span class="s1">Ship launchPad</span><span class="s0">;</span>
+	<span class="s1">Ship warship</span><span class="s0">;</span>
+	<span class="s1">Ship paddleboat</span><span class="s0">;</span>
+	
+	private static int <span class="s1">boardWidth = </span><span class="s2">10</span><span class="s0">;</span>
+	private static int <span class="s1">gridSize = </span><span class="s2">100</span><span class="s0">;</span>
+	private  int<span class="s1">[] grid = </span><span class="s0">new int</span><span class="s1">[gridSize]</span><span class="s0">;</span>
+	
+	 <span class="s1">Color black = Color.BLACK</span><span class="s0">;</span>
+	 <span class="s1">Color red = Color.RED</span><span class="s0">;</span>
+
+
+    <span class="s1">@FXML</span>
+    <span class="s3">//this method will eventually also have the code to check whether the attack was a hit/miss/sink, and change colour of button if so.</span>
+    <span class="s0">public void </span><span class="s1">getAttackCoordinates(ActionEvent event) {</span>
+		Button button = (Button) event.getSource()<span class="s0">;</span>
+		<span class="s1">String locationcoord = button.getText()</span><span class="s0">;</span>
+		<span class="s1">String xcoord = button.getText().substring(</span><span class="s2">0</span><span class="s0">, </span><span class="s2">1</span><span class="s1">)</span><span class="s0">;</span>
+		<span class="s1">String ycoord = button.getText().substring(button.getText().length() - </span><span class="s2">1</span><span class="s1">)</span><span class="s0">;</span>
+		
+
+		<span class="s1">System.out.println(</span><span class="s4">&quot;You have attacked the coordinates &quot; </span><span class="s1">+ xcoord + </span><span class="s4">&quot;,&quot; </span><span class="s1">+ ycoord)</span><span class="s0">;</span>
+		<span class="s1">System.out.println(</span><span class="s4">&quot;Sending locationCoordinate &quot; </span><span class="s1">+ locationcoord + </span><span class="s4">&quot; to the client&quot;</span><span class="s1">)</span><span class="s0">;</span>
+		this<span class="s1">.client.attackRequest(locationcoord)</span><span class="s0">;</span>
+		
+
+    <span class="s1">}</span>
+    
+    @FXML
+    <span class="s0">public void </span><span class="s1">startGame(ActionEvent event) {</span>
+    	surrenderButton.setDisable(<span class="s0">false</span><span class="s1">)</span><span class="s0">;</span>
+    	<span class="s1">gameMoveText.setStyle(</span><span class="s4">&quot;-fx-text-inner-color: black;&quot;</span><span class="s1">)</span><span class="s0">;</span>
+    	<span class="s1">System.out.println(</span><span class="s4">&quot;This startgame button works at least&quot;</span><span class="s1">)</span><span class="s0">;</span>
+    	<span class="s1">gameMoveText.appendText(</span><span class="s4">&quot;</span><span class="s0">\n </span><span class="s4">You have requested a game start! Please wait for another player to connect!&quot;</span><span class="s1">)</span><span class="s0">;</span>
+    	if <span class="s1">(destroyer.getLocationCells() != </span><span class="s0">null</span><span class="s1">) {</span>
+    		PlaceShipsButton.setDisable(<span class="s0">true</span><span class="s1">)</span><span class="s0">;</span>
+    		
+    		<span class="s1">ArrayList&lt;String&gt; dcoords = destroyer.getLocationCells()</span><span class="s0">;</span>
+    		<span class="s1">ArrayList&lt;String&gt; scoutcoords = scout.getLocationCells()</span><span class="s0">;</span>
+    		<span class="s1">ArrayList&lt;String&gt; subcoords = submarine.getLocationCells()</span><span class="s0">;</span>
+    		<span class="s1">ArrayList&lt;String&gt; lcoords = launchPad.getLocationCells()</span><span class="s0">;</span>
+    		<span class="s1">ArrayList&lt;String&gt; wcoords = warship.getLocationCells()</span><span class="s0">;</span>
+    		<span class="s1">ArrayList&lt;String&gt; pcoords = paddleboat.getLocationCells()</span><span class="s0">;</span>
+    		
+    		<span class="s1">String[] allCoords = {</span><span class="s4">&quot;GameStartRequest&quot;</span><span class="s0">,</span>
+    							   <span class="s1">dcoords.get(</span><span class="s2">0</span><span class="s1">)</span><span class="s0">, </span><span class="s1">dcoords.get(</span><span class="s2">1</span><span class="s1">)</span><span class="s0">, </span><span class="s1">dcoords.get(</span><span class="s2">2</span><span class="s1">)</span><span class="s0">, </span><span class="s3">//add the destroyer coordinates</span>
+    							   <span class="s1">scoutcoords.get(</span><span class="s2">0</span><span class="s1">)</span><span class="s0">, </span><span class="s1">scoutcoords.get(</span><span class="s2">1</span><span class="s1">)</span><span class="s0">, </span><span class="s3">//add the scout coordinates</span>
+    							   <span class="s1">subcoords.get(</span><span class="s2">0</span><span class="s1">)</span><span class="s0">, </span><span class="s1">subcoords.get(</span><span class="s2">1</span><span class="s1">)</span><span class="s0">, </span><span class="s1">subcoords.get(</span><span class="s2">2</span><span class="s1">)</span><span class="s0">, </span><span class="s3">//add the submarine coordinates</span>
+    							   <span class="s1">lcoords.get(</span><span class="s2">0</span><span class="s1">)</span><span class="s0">, </span><span class="s1">lcoords.get(</span><span class="s2">1</span><span class="s1">)</span><span class="s0">, </span><span class="s1">lcoords.get(</span><span class="s2">2</span><span class="s1">)</span><span class="s0">, </span><span class="s1">lcoords.get(</span><span class="s2">3</span><span class="s1">)</span><span class="s0">, </span><span class="s3">//add the launchPad coordinates</span>
+    							   <span class="s1">wcoords.get(</span><span class="s2">0</span><span class="s1">)</span><span class="s0">, </span><span class="s1">wcoords.get(</span><span class="s2">1</span><span class="s1">)</span><span class="s0">, </span><span class="s3">//add the warship coordinates</span>
+    							   <span class="s1">pcoords.get(</span><span class="s2">0</span><span class="s1">) </span><span class="s3">//add the paddleboat coordinates.</span>
+    							   <span class="s1">}</span><span class="s0">;</span>
+    		<span class="s1">System.out.println(allCoords.toString())</span><span class="s0">;</span>
+
+    		this<span class="s1">.client.sendShipLocations(allCoords)</span><span class="s0">;</span>
+    		<span class="s1">System.out.println(</span><span class="s4">&quot;Your ships have been sent to the server to be stored!&quot;</span><span class="s1">)</span><span class="s0">;</span>
+    		<span class="s1">gameMoveText.appendText(</span><span class="s4">&quot;Thanks for placing your ships! Waiting for opponent to place...</span><span class="s0">\n</span><span class="s4">&quot;</span><span class="s1">)</span><span class="s0">;</span>
+    		<span class="s1">startGameButton.setDisable(</span><span class="s0">true</span><span class="s1">)</span><span class="s0">;</span>
+    		
+    	<span class="s1">}</span>
+    	<span class="s0">else </span><span class="s1">{</span>
+    		System.out.println(<span class="s4">&quot;The ships have not yet been given locationCoords&quot;</span><span class="s1">)</span><span class="s0">;</span>
+    		<span class="s1">gameMoveText.setText(</span><span class="s4">&quot;Please place your ships before starting the game!</span><span class="s0">\n</span><span class="s4">&quot;</span><span class="s1">)</span><span class="s0">;</span>
+    	<span class="s1">}</span>
+    }
+    
+    @FXML
+    <span class="s0">public void </span><span class="s1">surrender(ActionEvent event) {</span>
+    	gameMoveText.setStyle(<span class="s4">&quot;-fx-text-inner-color: red;&quot;</span><span class="s1">)</span><span class="s0">;	</span>
+    	<span class="s1">gameMoveText.appendText(</span><span class="s4">&quot;</span><span class="s0">\n </span><span class="s4">You have surrendered! The enemy wins!&quot;</span><span class="s1">)</span><span class="s0">;</span>
+    	this<span class="s1">.client.surrenderRequest()</span><span class="s0">;</span>
+    		
+    	<span class="s1">}</span>
+    
+    
+    @FXML
+    <span class="s0">public void </span><span class="s1">randomiseShipPlacement(ActionEvent event) {</span>
+    	gameMoveText.setStyle(<span class="s4">&quot;-fx-text-inner-color: black;&quot;</span><span class="s1">)</span><span class="s0">;</span>
+    	<span class="s1">gameMoveText.appendText(</span><span class="s4">&quot;</span><span class="s0">\n </span><span class="s4">You have randomised your ships! Press 'start game' when you're ready to play&quot;</span><span class="s1">)</span><span class="s0">;</span>
+		<span class="s1">Arrays.fill(grid</span><span class="s0">, </span><span class="s2">0</span><span class="s1">)</span><span class="s0">; </span><span class="s3">// reset the grid to allow ships to be placed</span>
+								// anywhere again. also means that the opponent
+								// can place ships at same place.
+		<span class="s1">ObservableList&lt;Node&gt; nodes = PlayerGridPane.getChildren()</span><span class="s0">;</span>
+		for <span class="s1">(Node colouredButtons : nodes) {</span>
+			colouredButtons.setStyle(<span class="s0">null</span><span class="s1">)</span><span class="s0">; </span><span class="s3">//clear all current markings on the grid.</span>
+		<span class="s1">}</span>
+		
+		String bordercolour = <span class="s4">&quot;#7acc61&quot;</span><span class="s0">; </span><span class="s3">//set an initial border colour</span>
+
+		<span class="s1">System.out.println(</span><span class="s4">&quot;The randomiseShipPlacement button works&quot;</span><span class="s1">)</span><span class="s0">;</span>
+
+		<span class="s1">destroyer = </span><span class="s0">new </span><span class="s1">Ship(</span><span class="s4">&quot;Destroyer&quot;</span><span class="s0">, </span><span class="s2">3</span><span class="s0">, </span><span class="s2">1</span><span class="s1">)</span><span class="s0">; </span><span class="s3">//size 3</span>
+		<span class="s1">scout = </span><span class="s0">new </span><span class="s1">Ship(</span><span class="s4">&quot;Scout&quot;</span><span class="s0">, </span><span class="s2">2</span><span class="s0">, </span><span class="s2">2</span><span class="s1">)</span><span class="s0">;         </span><span class="s3">//size 2</span>
+		<span class="s1">submarine = </span><span class="s0">new </span><span class="s1">Ship(</span><span class="s4">&quot;Submarine&quot;</span><span class="s0">, </span><span class="s2">3</span><span class="s0">, </span><span class="s2">3</span><span class="s1">)</span><span class="s0">; </span><span class="s3">//size 3</span>
+		<span class="s1">launchPad = </span><span class="s0">new </span><span class="s1">Ship(</span><span class="s4">&quot;Launch Pad&quot;</span><span class="s0">, </span><span class="s2">4</span><span class="s0">, </span><span class="s2">4</span><span class="s1">)</span><span class="s0">;</span><span class="s3">//size 4</span>
+		<span class="s1">warship = </span><span class="s0">new </span><span class="s1">Ship(</span><span class="s4">&quot;Warship&quot;</span><span class="s0">, </span><span class="s2">2</span><span class="s0">, </span><span class="s2">5</span><span class="s1">)</span><span class="s0">;     </span><span class="s3">//size 2</span>
+		<span class="s1">paddleboat = </span><span class="s0">new </span><span class="s1">Ship(</span><span class="s4">&quot;Paddle Boat&quot;</span><span class="s0">, </span><span class="s2">1</span><span class="s0">, </span><span class="s2">6</span><span class="s1">)</span><span class="s0">;</span><span class="s3">//size 1</span>
+
+		<span class="s1">Ship[] ships = { destroyer</span><span class="s0">, </span><span class="s1">scout</span><span class="s0">, </span><span class="s1">submarine</span><span class="s0">, </span><span class="s1">launchPad</span><span class="s0">, </span><span class="s1">warship</span><span class="s0">, </span><span class="s1">paddleboat }</span><span class="s0">; </span><span class="s3">//put all the ships into an array </span>
+		<span class="s1">placeShip(ships)</span><span class="s0">; </span><span class="s3">//place all the ships, thus setting their locationCells.</span>
+		
+		<span class="s0">for </span><span class="s1">(Ship ship : ships) {</span>
+			System.out.println(ship.toString() + ship.getLocationCells())<span class="s0">; </span><span class="s3">//basic print out of where all your ships are.</span>
+		<span class="s1">}</span>
+		
+		<span class="s0">for </span><span class="s1">(Ship ship : ships) {</span>
+			<span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">i &lt; ship.getLength()</span><span class="s0">; </span><span class="s1">i++) {</span>
+		
+		String shipcoord = ship.getLocationCells().get(i)<span class="s0">;</span>
+		
+		<span class="s1">String concat = </span><span class="s4">&quot;b&quot;</span><span class="s1">.concat(shipcoord)</span><span class="s0">; </span><span class="s3">//concatenate the locationCell with the letter 'b' to match the button Id</span>
+		<span class="s1">System.out.println(</span><span class="s4">&quot;we're searching the buttons for &quot; </span><span class="s1">+ concat)</span><span class="s0">; </span>
+		
+			if <span class="s1">(ship.equals(destroyer)) {</span>
+				bordercolour = <span class="s4">&quot;#7acc61&quot;</span><span class="s0">; </span><span class="s3">//green</span>
+			<span class="s1">} </span><span class="s0">else if </span><span class="s1">(ship.equals(launchPad)) {</span>
+				bordercolour = <span class="s4">&quot;#f44292&quot;</span><span class="s0">; </span><span class="s3">//pink</span>
+			<span class="s1">} </span><span class="s0">else if </span><span class="s1">(ship.equals(paddleboat)){</span>
+				bordercolour = <span class="s4">&quot;#41bbf4&quot;</span><span class="s0">; </span><span class="s3">//blue</span>
+			<span class="s1">} </span><span class="s0">else if </span><span class="s1">(ship.equals(scout)) {</span>
+				bordercolour = <span class="s4">&quot;#f4d341&quot;</span><span class="s0">; </span><span class="s3">//yellow</span>
+			<span class="s1">} </span><span class="s0">else if </span><span class="s1">(ship.equals(submarine)) {</span>
+				bordercolour = <span class="s4">&quot;#f46741&quot;</span><span class="s0">; </span><span class="s3">//orange </span>
+			<span class="s1">} </span><span class="s0">else if </span><span class="s1">(ship.equals(warship)) {</span>
+				bordercolour = <span class="s4">&quot;#f44141&quot;</span><span class="s0">;</span><span class="s3">// red        //here we make the outlines of the user ship placements different colours</span>
+			<span class="s1">}</span>
+				
+		ObservableList&lt;Node&gt; buttons = PlayerGridPane.getChildren()<span class="s0">; </span><span class="s3">//get all the PlayerGridPane buttons and put them in an array</span>
+		<span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">j = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">j &lt; buttons.size()</span><span class="s0">; </span><span class="s1">j++) {    </span><span class="s3">//for each of buttons, get the id, and check it against the locationCell we're looking for</span>
+		
+			<span class="s1">String id = buttons.get(j).getId()</span><span class="s0">;</span>
+			if <span class="s1">(id == </span><span class="s0">null</span><span class="s1">) {</span>
+				System.out.println(<span class="s4">&quot;THIS BUTTON ISNT INITIALISED&quot;</span><span class="s1">)</span><span class="s0">;</span>
+				<span class="s1">System.out.println(buttons.get(j))</span><span class="s0">;   </span><span class="s3">//this is just a check to see whether any buttons haven't been id'd, used during testing.</span>
+			<span class="s1">}</span>
+				<span class="s0">if </span><span class="s1">(id.equals(concat)) {</span>
+					System.out.println(<span class="s4">&quot;Found the matching coordinate!&quot;</span><span class="s1">)</span><span class="s0">;</span>
+					<span class="s1">buttons.get(j).setStyle(</span><span class="s4">&quot;-fx-border-color: &quot; </span><span class="s1">+ bordercolour + </span><span class="s4">&quot;; -fx-border-width: 4px;&quot;</span><span class="s1">)</span><span class="s0">; </span><span class="s3">//give the button a border</span>
+					<span class="s0">break;</span>
+			<span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+				<span class="s3">//System.out.println(&quot;Not this button, try next one&quot;);</span>
+		<span class="s1">}</span>
+		<span class="s3">//System.out.println(buttons.get(j).getId()); //for testing purposes, print out all the tried buttons during the search for the locationCell.</span>
+		<span class="s1">}</span>
+		}
+	}
+    }
+    
+    <span class="s0">public void </span><span class="s1">startGameResponse(String success) {</span>
+    	gameMoveText.setStyle(<span class="s4">&quot;-fx-text-inner-color: black;&quot;</span><span class="s1">)</span><span class="s0">;</span>
+    	if<span class="s1">(success.equals(</span><span class="s4">&quot;false&quot;</span><span class="s1">)) {</span>
+    		System.out.println(<span class="s4">&quot;Please wait for the other player to join!&quot;</span><span class="s1">)</span><span class="s0">;</span>
+    	<span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+    		System.out.println(<span class="s4">&quot;Game started!&quot;</span><span class="s1">)</span><span class="s0">;</span>
+    		<span class="s1">gameMoveText.setText(</span><span class="s4">&quot;Both Players are connected! Let's play Battleships! </span><span class="s0">\n</span><span class="s4">&quot;</span><span class="s1">)</span><span class="s0">;</span>
+    	<span class="s1">}</span>
+    }
+	<span class="s3">//mark attacks that you have made on the enemy grid as hits</span>
+    
+	  <span class="s0">public void </span><span class="s1">markOwnAttackHit(String attackcoord) {</span>
+		  gameMoveText.setStyle(<span class="s4">&quot;-fx-text-inner-color: black;&quot;</span><span class="s1">)</span><span class="s0">;</span>
+		  <span class="s1">System.out.println(</span><span class="s4">&quot;Marking your attack as a hit on the enemy board: &quot; </span><span class="s1">+ attackcoord)</span><span class="s0">;</span>
+		  <span class="s1">String text = </span><span class="s4">&quot;You successfully hit one of your enemy's ships at the coordinates: &quot; </span><span class="s1">+ attackcoord.substring(</span><span class="s2">0</span><span class="s0">, </span><span class="s2">1</span><span class="s1">) + </span><span class="s4">&quot;,&quot; </span><span class="s1">+ attackcoord.substring(</span><span class="s2">1</span><span class="s1">)</span><span class="s0">;</span>
+		  <span class="s1">gameMoveText.appendText(text + </span><span class="s4">&quot;</span><span class="s0">\n</span><span class="s4">&quot;</span><span class="s1">)</span><span class="s0">;</span>
+		  
+		  <span class="s1">ObservableList&lt;Node&gt; nodes =  EnemyGridPane.getChildren()</span><span class="s0">; </span><span class="s3">//get all gridpane children</span>
+		  <span class="s1">ArrayList&lt;Button&gt; buttons = </span><span class="s0">new </span><span class="s1">ArrayList&lt;Button&gt;()</span><span class="s0">;      </span><span class="s3">//create arrayList for button children</span>
+		  
+		  <span class="s0">for </span><span class="s1">(Node node : nodes) { </span><span class="s3">//for each node in gridpane children</span>
+			  <span class="s0">if </span><span class="s1">(node </span><span class="s0">instanceof </span><span class="s1">Button) { </span><span class="s3">//if the node is a button, add it to the button arrayList.</span>
+				  <span class="s1">buttons.add((Button) node)</span><span class="s0">;</span>
+		  	<span class="s1">}</span>
+		  }
+		  String buttonCoord = <span class="s4">&quot;e&quot;</span><span class="s1">.concat(attackcoord)</span><span class="s0">; </span><span class="s3">//create the name of the button using the input attackcoord</span>
+		  
+		  <span class="s0">for </span><span class="s1">(Button button : buttons) { </span><span class="s3">//for each of the buttons in the grid, </span>
+			  <span class="s0">if </span><span class="s1">(button.getId().equals(buttonCoord)) { </span><span class="s3">//if the button id matches, then you've found the correct button.</span>
+				 <span class="s1">Border border = button.getBorder()</span><span class="s0">;</span>
+				  <span class="s1">button.setStyle(</span><span class="s4">&quot;-fx-base: #ee2211;&quot;</span><span class="s1">)</span><span class="s0">; </span><span class="s3">//set button disabled and colour to be red</span>
+				  <span class="s1">button.setDisable(</span><span class="s0">true</span><span class="s1">)</span><span class="s0">;</span>
+				  <span class="s1">button.setBorder(border)</span><span class="s0">;</span>
+			  <span class="s1">}</span>
+		  }
+	  }
+	  <span class="s3">//mark attacks that you have made on the enemy grid as miss</span>
+    
+	  <span class="s0">public void </span><span class="s1">markOwnAttackMiss(String attackcoord) {</span>
+		  gameMoveText.setStyle(<span class="s4">&quot;-fx-text-inner-color: black;&quot;</span><span class="s1">)</span><span class="s0">;</span>
+		  <span class="s1">System.out.println(</span><span class="s4">&quot;Marking your attack as a miss on the enemy board: &quot; </span><span class="s1">+ attackcoord)</span><span class="s0">;</span>
+		  <span class="s1">String text = </span><span class="s4">&quot;You missed the enemy's ships at the coordinates: &quot; </span><span class="s1">+ attackcoord.substring(</span><span class="s2">0</span><span class="s0">,</span><span class="s2">1</span><span class="s1">) + </span><span class="s4">&quot;,&quot; </span><span class="s1">+ attackcoord.substring(</span><span class="s2">1</span><span class="s1">)</span><span class="s0">;</span>
+		  <span class="s1">gameMoveText.appendText(text + </span><span class="s4">&quot;</span><span class="s0">\n</span><span class="s4">&quot;</span><span class="s1">)</span><span class="s0">;</span>
+		  <span class="s1">ObservableList&lt;Node&gt; nodes = EnemyGridPane.getChildren()</span><span class="s0">;</span>
+		  <span class="s1">ArrayList&lt;Button&gt; buttons = </span><span class="s0">new </span><span class="s1">ArrayList&lt;Button&gt;()</span><span class="s0">;</span>
+		  	for <span class="s1">(Node node : nodes) {</span>
+		  		<span class="s0">if </span><span class="s1">(node </span><span class="s0">instanceof </span><span class="s1">Button) {</span>
+		  			buttons.add((Button) node)<span class="s0">;</span>
+		  		<span class="s1">}</span>
+		  	}
+		  String buttonCoord = <span class="s4">&quot;e&quot;</span><span class="s1">.concat(attackcoord)</span><span class="s0">;</span>
+		  for <span class="s1">(Button button : buttons) {</span>
+			  <span class="s0">if</span><span class="s1">(button.getId().equals(buttonCoord)) {</span>
+				  button.setDisable(<span class="s0">true</span><span class="s1">)</span><span class="s0">;</span>
+				  <span class="s1">button.setStyle(</span><span class="s4">&quot;-fx-background-colour: black;&quot;</span><span class="s1">)</span><span class="s0">; </span><span class="s3">//set button disabled and colour to be black</span>
+				  <span class="s1">button.setStyle(</span><span class="s4">&quot;fx-border-colour: black;&quot;</span><span class="s1">)</span><span class="s0">;</span>
+			  <span class="s1">}</span>
+		  }
+	  }
+	  <span class="s3">//mark attacks that the enemy has made as hits on your grid</span>
+	  
+	  <span class="s0">public void </span><span class="s1">markEnemyAttackHit(String attackcoord) {</span>
+		  gameMoveText.setStyle(<span class="s4">&quot;-fx-text-inner-color: black;&quot;</span><span class="s1">)</span><span class="s0">;</span>
+		  <span class="s1">System.out.println(</span><span class="s4">&quot;Marking enemy attack as a hit on your self board: &quot; </span><span class="s1">+ attackcoord)</span><span class="s0">;</span>
+		  <span class="s1">String text = </span><span class="s4">&quot;The enemy successfully hit one of your ships at the coordinates: &quot; </span><span class="s1">+ attackcoord.substring(</span><span class="s2">0</span><span class="s0">,</span><span class="s2">1</span><span class="s1">) + </span><span class="s4">&quot;,&quot; </span><span class="s1">+ attackcoord.substring(</span><span class="s2">1</span><span class="s1">)</span><span class="s0">;</span>
+		  <span class="s1">gameMoveText.appendText(text + </span><span class="s4">&quot;</span><span class="s0">\n</span><span class="s4">&quot;</span><span class="s1">)</span><span class="s0">;</span>
+		  <span class="s1">ObservableList&lt;Node&gt; nodes = PlayerGridPane.getChildren()</span><span class="s0">;</span>
+		  <span class="s1">ArrayList&lt;Button&gt; buttons = </span><span class="s0">new </span><span class="s1">ArrayList&lt;Button&gt;()</span><span class="s0">;</span>
+		  		for <span class="s1">(Node node: nodes) {</span>
+		  			<span class="s0">if </span><span class="s1">(node </span><span class="s0">instanceof </span><span class="s1">Button) {</span>
+		  				buttons.add((Button) node)<span class="s0">;</span>
+		  			<span class="s1">}</span>
+		  		}
+		  String buttonCoord = <span class="s4">&quot;b&quot;</span><span class="s1">.concat(attackcoord)</span><span class="s0">;</span>
+		  
+		  for<span class="s1">(Button button : buttons) {</span>
+			  <span class="s0">if</span><span class="s1">(button.getId().equals(buttonCoord)) {</span>
+				  Border border = button.getBorder()<span class="s0">;</span>
+				  <span class="s1">button.setDisable(</span><span class="s0">true</span><span class="s1">)</span><span class="s0">;</span>
+				  <span class="s1">button.setStyle(</span><span class="s4">&quot;-fx-base: #ee2211;&quot;</span><span class="s1">)</span><span class="s0">; </span><span class="s3">//set internal colour to red and button disabled</span>
+				  <span class="s1">button.setBorder(border)</span><span class="s0">;</span>
+				  
+			  <span class="s1">}</span>
+		  }
+	  }
+	  <span class="s3">//mark attacks that the enemy has made as misses on your grids</span>
+	  
+	  <span class="s0">public void </span><span class="s1">markEnemyAttackMiss(String attackcoord) {</span>
+		  gameMoveText.setStyle(<span class="s4">&quot;-fx-text-inner-color: black;&quot;</span><span class="s1">)</span><span class="s0">;</span>
+		  <span class="s1">System.out.println(</span><span class="s4">&quot;Marking enemy attack as a miss on your self board: &quot; </span><span class="s1">+ attackcoord)</span><span class="s0">;</span>
+		  <span class="s1">String text = </span><span class="s4">&quot;The enemy missed your ships at the coordinates: &quot; </span><span class="s1">+ attackcoord.substring(</span><span class="s2">0</span><span class="s0">,</span><span class="s2">1</span><span class="s1">) + </span><span class="s4">&quot;,&quot; </span><span class="s1">+ attackcoord.substring(</span><span class="s2">1</span><span class="s1">)</span><span class="s0">;</span>
+		  <span class="s1">gameMoveText.appendText(text + </span><span class="s4">&quot;</span><span class="s0">\n</span><span class="s4">&quot;</span><span class="s1">)</span><span class="s0">;</span>
+		  <span class="s1">ObservableList&lt;Node&gt; nodes = PlayerGridPane.getChildren()</span><span class="s0">;</span>
+		  <span class="s1">ArrayList&lt;Button&gt; buttons = </span><span class="s0">new </span><span class="s1">ArrayList&lt;Button&gt;()</span><span class="s0">;</span>
+		  for <span class="s1">(Node node : nodes) {</span>
+			  <span class="s0">if </span><span class="s1">(node </span><span class="s0">instanceof </span><span class="s1">Button) {</span>
+				  buttons.add((Button) node)<span class="s0">;</span>
+			  <span class="s1">}</span>
+		  }
+		  String buttonCoord = <span class="s4">&quot;b&quot;</span><span class="s1">.concat(attackcoord)</span><span class="s0">;</span>
+		  
+		  for<span class="s1">(Button button : buttons) {</span>
+			  <span class="s0">if</span><span class="s1">(button.getId().equals(buttonCoord)) {</span>
+				  button.setStyle(<span class="s4">&quot;-fx-background-colour: black;&quot;</span><span class="s1">)</span><span class="s0">; </span><span class="s3">//set internal colour to red and button disabled</span>
+				  <span class="s1">button.setDisable(</span><span class="s0">true</span><span class="s1">)</span><span class="s0">;</span>
+				  <span class="s1">button.setStyle(</span><span class="s4">&quot;fx-border-colour: black;&quot;</span><span class="s1">)</span><span class="s0">;</span>
+				
+			  <span class="s1">}</span>
+		  }
+		  
+	  }
+    
+	  
+	  <span class="s0">public void </span><span class="s1">notYourTurn() {</span>
+		  gameMoveText.appendText(<span class="s4">&quot;</span><span class="s0">\n </span><span class="s4">It is not your turn! Please wait for your opponent's move first!</span><span class="s0">\n</span><span class="s4">&quot;</span><span class="s1">)</span><span class="s0">;</span>
+		  <span class="s1">gameMoveText.setStyle(</span><span class="s4">&quot;-fx-text-inner-color: red;&quot;</span><span class="s1">)</span><span class="s0">;</span>
+	  <span class="s1">}</span>
+	  
+	  <span class="s0">public void </span><span class="s1">enemyshipSunk(String shipName) {</span>
+		  gameMoveText.appendText(<span class="s4">&quot;You have sunk the enemy's &quot; </span><span class="s1">+ shipName)</span><span class="s0">;</span>
+	  <span class="s1">}</span>
+	  
+	  <span class="s0">public void </span><span class="s1">playershipSunk(String shipName) {</span>
+		  gameMoveText.appendText(<span class="s4">&quot;The enemy has sunk your &quot; </span><span class="s1">+ shipName)</span><span class="s0">;</span>
+	  <span class="s1">}</span>
+	  
+	  <span class="s0">public void </span><span class="s1">playerDisconnected() {</span>
+		  myGUI.endGameWin()<span class="s0">;</span>
+	  <span class="s1">}</span>
+    <span class="s3">//this is the method to place the ships so that they do not overlap, and that they fit on the board without overhang. it also sets the locationCells for each ship.</span>
+	  <span class="s0">public  void </span><span class="s1">placeShip(Ship[] ships) {	</span>
+		  <span class="s0">for </span><span class="s1">(Ship ship:ships) {</span>
+				ArrayList&lt;String&gt; shipPositions = <span class="s0">new </span><span class="s1">ArrayList&lt;String&gt;()</span><span class="s0">; </span><span class="s3">//arrayList of all the string coordinates. will be initialised to locationCells</span>
+			<span class="s0">int </span><span class="s1">shipSize = ship.getLength()</span><span class="s0">;</span>
+			
+			<span class="s1">String temp = </span><span class="s0">null; </span><span class="s3">//temporary string for concatenation.</span>
+			<span class="s0">int</span><span class="s1">[] coords = </span><span class="s0">new int</span><span class="s1">[shipSize]</span><span class="s0">; </span><span class="s3">//current candidate coords.</span>
+			
+			<span class="s0">int </span><span class="s1">attempts = </span><span class="s2">0</span><span class="s0">; </span><span class="s3">//current attempts counter</span>
+			<span class="s0">boolean </span><span class="s1">success = </span><span class="s0">false; </span><span class="s3">// flag = found a good location?</span>
+			<span class="s0">int </span><span class="s1">location = </span><span class="s2">0</span><span class="s0">; </span><span class="s3">//a starting location</span>
+			
+			<span class="s0">int </span><span class="s1">incr = </span><span class="s2">1</span><span class="s0">;</span>
+			<span class="s1">Random rnd = </span><span class="s0">new </span><span class="s1">Random()</span><span class="s0">;</span>
+			int <span class="s1">randomNum = rnd.nextInt((</span><span class="s2">10 </span><span class="s1">- </span><span class="s2">1</span><span class="s1">) + </span><span class="s2">1</span><span class="s1">) + </span><span class="s2">1</span><span class="s0">;</span>
+			if <span class="s1">(randomNum % </span><span class="s2">2 </span><span class="s1">== </span><span class="s2">1</span><span class="s1">) {</span>
+				incr = boardWidth<span class="s0">; </span><span class="s3">//use a random number generator to decide whether to place ships vertically or horizontally. if odd, vertical.</span>
+			<span class="s1">}</span>
+			
+			<span class="s0">while</span><span class="s1">(success == </span><span class="s0">false </span><span class="s1">&amp;&amp; attempts++ &lt; </span><span class="s2">200</span><span class="s1">) {</span>
+				location = (<span class="s0">int</span><span class="s1">) (Math.random() * gridSize)</span><span class="s0">; </span><span class="s3">//get a random location on the grid</span>
+				<span class="s0">int </span><span class="s1">x = </span><span class="s2">0</span><span class="s0">; </span><span class="s3">//nth position of the ship to place</span>
+				<span class="s1">success = </span><span class="s0">true; </span><span class="s3">//assume success</span>
+				
+			<span class="s0">while</span><span class="s1">(success &amp;&amp; x &lt; shipSize) { </span><span class="s3">//while success = true and we still have ship length positions to place</span>
+				<span class="s0">if</span><span class="s1">(grid[location] == </span><span class="s2">0</span><span class="s1">) { </span><span class="s3">//if we havent used this location already (all values initialised to zero)</span>
+					<span class="s1">coords[x++] = location</span><span class="s0">;</span>
+					<span class="s1">location += incr</span><span class="s0">; </span><span class="s3">//try next adjacent location (remember that incr = 10 if we're going vertically)</span>
+					
+				<span class="s0">if </span><span class="s1">(location &gt;= gridSize) {</span>
+					success = <span class="s0">false; </span><span class="s3">//we cant have a location thats not on the grid. adjacent values that hang off the grid not considered.</span>
+				<span class="s1">}</span>
+				<span class="s0">if </span><span class="s1">(x &gt; </span><span class="s2">0 </span><span class="s1">&amp;&amp; (location % boardWidth == </span><span class="s2">0</span><span class="s1">)) { </span><span class="s3">//out of bounds right edge. run while loop again.</span>
+					<span class="s1">success = </span><span class="s0">false;</span>
+				<span class="s1">}</span>
+			} <span class="s0">else </span><span class="s1">{ </span><span class="s3">//location found is already in use, thus false. run while loop again.</span>
+				<span class="s1">success = </span><span class="s0">false;</span>
+			<span class="s1">}</span>
+		}
+		}
+			<span class="s0">int </span><span class="s1">x = </span><span class="s2">0</span><span class="s0">;  </span><span class="s3">//now we turn the good locations into actual coodinates. remember x is which position of the ships's length we have coords for.</span>
+			<span class="s0">int </span><span class="s1">row = </span><span class="s2">0</span><span class="s0">;</span>
+			int <span class="s1">column = </span><span class="s2">0</span><span class="s0">;</span>
+			
+			while <span class="s1">(x &lt; shipSize) {</span>
+				grid[coords[x]] = <span class="s2">1</span><span class="s0">; </span><span class="s3">//mark these positions on the master grid as being used, ie they arent 0 any more thus get caught on if(grid[location] == 0)</span>
+				<span class="s1">row = (</span><span class="s0">int</span><span class="s1">) (coords[x] / boardWidth)</span><span class="s0">; </span><span class="s3">//get row value</span>
+				<span class="s1">column = (</span><span class="s0">int</span><span class="s1">) (coords[x] % boardWidth)</span><span class="s0">; </span><span class="s3">//get column value</span>
+				<span class="s1">temp = Integer.toString(column).concat(Integer.toString(row))</span><span class="s0">; </span><span class="s3">//make the row and column into a suitable locationCell coordinate</span>
+				
+				<span class="s1">shipPositions.add(temp)</span><span class="s0">; </span><span class="s3">//the current ship's locationCells stored in here</span>
+				<span class="s1">x++</span><span class="s0">; </span><span class="s3">//x refers to the current position in the ship's length we're at</span>
+				<span class="s1">}</span>
+			ship.setLocationCells(shipPositions)<span class="s0">; </span><span class="s3">//set the location cells for the ship.</span>
+		  <span class="s1">}</span>
+	  }
+
+    <span class="s0">public </span><span class="s1">Client getClient() {</span>
+		<span class="s0">return </span><span class="s1">client</span><span class="s0">;</span>
+	<span class="s1">}</span>
+
+	<span class="s0">public void </span><span class="s1">setClient(Client client) {</span>
+		<span class="s0">this</span><span class="s1">.client = client</span><span class="s0">;		</span>
+		
+	<span class="s1">}</span>
+
+	<span class="s0">public void </span><span class="s1">setMain(Main main) {</span>
+		<span class="s0">this</span><span class="s1">.myGUI = main</span><span class="s0">;</span>
+	<span class="s1">}</span>
+	
+
+		
+	}
+
+</pre>
+</body>
+</html>

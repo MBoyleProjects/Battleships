@@ -1,0 +1,105 @@
+<html>
+<head>
+<title>LoginPageController.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #1b801a;}
+.s3 { color: #6a8759;}
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+LoginPageController.java</font>
+</center></td></tr></table>
+<pre><a name="l1"><span class="ln">1    </span></a><span class="s0">package </span><span class="s1">application</span><span class="s0">;</span>
+
+import <span class="s1">javafx.application.Platform</span><span class="s0">;</span>
+import <span class="s1">javafx.event.ActionEvent</span><span class="s0">;</span>
+import <span class="s1">javafx.fxml.FXML</span><span class="s0">;</span>
+import <span class="s1">javafx.scene.control.Button</span><span class="s0">;</span>
+import <span class="s1">javafx.scene.control.PasswordField</span><span class="s0">;</span>
+import <span class="s1">javafx.scene.control.TextField</span><span class="s0">;</span>
+import <span class="s1">javafx.scene.input.MouseEvent</span><span class="s0">;</span>
+import <span class="s1">javafx.scene.text.Text</span><span class="s0">;</span>
+
+public class <span class="s1">LoginPageController {</span>
+
+	<span class="s2">//loginPage GUI</span>
+	<span class="s1">@FXML</span>
+	<span class="s0">private </span><span class="s1">TextField usernameBox</span><span class="s0">;</span>
+	<span class="s1">@FXML</span>
+	<span class="s0">private </span><span class="s1">PasswordField passwordBox</span><span class="s0">;</span>
+	<span class="s1">@FXML</span>
+	<span class="s0">private </span><span class="s1">Button LogInButton</span><span class="s0">;</span>
+	<span class="s1">@FXML</span>
+	<span class="s0">private </span><span class="s1">Button toRegisterPageButton</span><span class="s0">;</span>
+	<span class="s1">@FXML</span>
+	<span class="s0">private </span><span class="s1">Text errorText</span><span class="s0">;</span>
+	<span class="s1">@FXML</span>
+	<span class="s0">private </span><span class="s1">Text loginInvalidText</span><span class="s0">;</span>
+	<span class="s1">@FXML</span>
+	<span class="s0">private </span><span class="s1">Text loginSuccessful</span><span class="s0">;</span>
+
+	private <span class="s1">Client client</span><span class="s0">; </span>
+	private <span class="s1">Main myGUI</span><span class="s0">; </span>
+
+	<span class="s2">// method that takes in username and password and attempts to log in the user.</span>
+	<span class="s1">@FXML</span>
+	<span class="s0">protected void </span><span class="s1">loginAttempt(MouseEvent event) {</span>
+		errorText.setVisible(<span class="s0">false</span><span class="s1">)</span><span class="s0">;</span>
+		<span class="s1">loginSuccessful.setVisible(</span><span class="s0">false</span><span class="s1">)</span><span class="s0">;</span>
+		<span class="s1">loginInvalidText.setVisible(</span><span class="s0">false</span><span class="s1">)</span><span class="s0">;</span>
+
+		if <span class="s1">(!usernameBox.getText().isEmpty() &amp;&amp; !passwordBox.getText().isEmpty()) { </span><span class="s2">// check if user/pass boxes have</span>
+																					// text in them
+			<span class="s1">String username = usernameBox.getText()</span><span class="s0">;</span>
+			<span class="s1">String password = passwordBox.getText()</span><span class="s0">;</span>
+			<span class="s1">System.out.println(</span><span class="s3">&quot;Login Attempted with Username: &quot; </span><span class="s1">+ username + </span><span class="s3">&quot; and Password: &quot; </span><span class="s1">+ password)</span><span class="s0">;</span>
+
+			this<span class="s1">.client.loginRequest(username</span><span class="s0">, </span><span class="s1">password)</span><span class="s0">;</span>
+		<span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+			System.out.println(<span class="s3">&quot;Invalid Login. Please try again, or Register if you are a new user!&quot;</span><span class="s1">)</span><span class="s0">;</span>
+			<span class="s1">errorText.setVisible(</span><span class="s0">true</span><span class="s1">)</span><span class="s0">;</span>
+
+		<span class="s1">}</span>
+	}
+
+	@FXML
+	<span class="s2">//this method opens the new Scene to allow registration</span>
+	<span class="s0">protected void </span><span class="s1">changeToRegisterPage(ActionEvent event) { </span><span class="s2">//change name to change to register screen</span>
+	
+		<span class="s1">Platform.runLater(</span><span class="s0">new </span><span class="s1">Runnable() {</span>
+
+			@Override
+			<span class="s0">public void </span><span class="s1">run() {</span>
+				myGUI.changeToRegisterScreen()<span class="s0">;</span>
+								<span class="s1">}	</span>
+				}	
+		)<span class="s0">;</span>
+	<span class="s1">}</span>
+	
+	<span class="s0">public void </span><span class="s1">loginInvalid() {</span>
+		errorText.setVisible(<span class="s0">false</span><span class="s1">)</span><span class="s0">;</span>
+		<span class="s1">loginSuccessful.setVisible(</span><span class="s0">false</span><span class="s1">)</span><span class="s0">;</span>
+		<span class="s1">loginInvalidText.setVisible(</span><span class="s0">true</span><span class="s1">)</span><span class="s0">;</span>
+	<span class="s1">}</span>
+
+
+	   <span class="s0">public </span><span class="s1">Client getClient() {</span>
+			<span class="s0">return </span><span class="s1">client</span><span class="s0">;</span>
+		<span class="s1">}</span>
+		<span class="s0">public void </span><span class="s1">setClient(Client client) {</span>
+			<span class="s0">this</span><span class="s1">.client = client</span><span class="s0">;		</span>
+		<span class="s1">}</span>
+		<span class="s0">public void </span><span class="s1">setMain(Main main) {</span>
+			<span class="s0">this</span><span class="s1">.myGUI = main</span><span class="s0">;</span>
+		<span class="s1">}</span>
+}
+</pre>
+</body>
+</html>

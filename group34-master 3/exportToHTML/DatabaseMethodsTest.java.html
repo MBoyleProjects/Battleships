@@ -1,0 +1,152 @@
+<html>
+<head>
+<title>DatabaseMethodsTest.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #629755; font-style: italic;}
+.s3 { color: #629755; font-weight: bold; font-style: italic;}
+.s4 { color: #6a8759;}
+.s5 { color: #1b801a;}
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+DatabaseMethodsTest.java</font>
+</center></td></tr></table>
+<pre><a name="l1"><span class="ln">1    </span></a><span class="s0">package </span><span class="s1">application</span><span class="s0">;</span>
+
+import static <span class="s1">org.junit.Assert.assertEquals</span><span class="s0">;</span>
+
+import <span class="s1">org.junit.Test</span><span class="s0">;</span>
+
+import <span class="s1">application.DatabaseMethods</span><span class="s0">;</span>
+
+<span class="s2">/**</span>
+ * Class that will test the Database Methods class
+ * 
+ * <span class="s3">@author </span><span class="s2">DoraPpo</span>
+ *
+ */
+
+<span class="s0">public class </span><span class="s1">DatabaseMethodsTest {</span>
+	<span class="s2">/**</span>
+	 * Test for loginUser method Tests for loginUser method when both the username
+	 * and password are correct
+	 */
+	<span class="s1">@Test</span>
+	<span class="s0">public void </span><span class="s1">loginUserTest1() {</span>
+		DatabaseMethods.setupConnection()<span class="s0">;</span>
+
+		boolean <span class="s1">expected = </span><span class="s0">true;</span>
+		boolean <span class="s1">actual = DatabaseMethods.loginUser(</span><span class="s4">&quot;oscar&quot;</span><span class="s0">, </span><span class="s4">&quot;kitty01&quot;</span><span class="s1">)</span><span class="s0">;</span>
+		<span class="s1">assertEquals(expected</span><span class="s0">, </span><span class="s1">actual)</span><span class="s0">;</span>
+
+	<span class="s1">}</span>
+
+	<span class="s2">/**</span>
+	 * Test for loginUser method Tests for loginUser method when username is wrong
+	 */
+	<span class="s1">@Test</span>
+	<span class="s0">public void </span><span class="s1">loginUserTest2() {</span>
+		DatabaseMethods.setupConnection()<span class="s0">;</span>
+
+		boolean <span class="s1">expected = </span><span class="s0">false;</span>
+		boolean <span class="s1">actual = DatabaseMethods.loginUser(</span><span class="s4">&quot;wrong&quot;</span><span class="s0">, </span><span class="s4">&quot;kitty01&quot;</span><span class="s1">)</span><span class="s0">;</span>
+		<span class="s1">assertEquals(expected</span><span class="s0">, </span><span class="s1">actual)</span><span class="s0">;</span>
+
+	<span class="s1">}</span>
+
+	<span class="s2">/**</span>
+	 * Test for loginUser method Tests for loginUser method when password is wrong
+	 */
+	<span class="s1">@Test</span>
+	<span class="s0">public void </span><span class="s1">loginUserTEst3() {</span>
+		DatabaseMethods.setupConnection()<span class="s0">;</span>
+
+		boolean <span class="s1">expected = </span><span class="s0">false;</span>
+		boolean <span class="s1">actual = DatabaseMethods.loginUser(</span><span class="s4">&quot;oscar&quot;</span><span class="s0">, </span><span class="s4">&quot;wrong&quot;</span><span class="s1">)</span><span class="s0">;</span>
+		<span class="s1">assertEquals(expected</span><span class="s0">, </span><span class="s1">actual)</span><span class="s0">;</span>
+
+	<span class="s1">}</span>
+
+	<span class="s2">/**</span>
+	 * Test for registerUser method
+	 */
+	<span class="s1">@Test</span>
+	<span class="s0">public void </span><span class="s1">registerUserTest1() {</span>
+		DatabaseMethods.setupConnection()<span class="s0">;</span>
+
+		boolean <span class="s1">expected = </span><span class="s0">true;</span>
+		boolean <span class="s1">actual = DatabaseMethods.registerUser(</span><span class="s4">&quot;testU02&quot;</span><span class="s0">, </span><span class="s4">&quot;testP&quot;</span><span class="s1">)</span><span class="s0">;</span>
+		<span class="s1">assertEquals(expected</span><span class="s0">, </span><span class="s1">actual)</span><span class="s0">;</span>
+
+	<span class="s1">}</span>
+	<span class="s5">// sanity checks on client side for matching passwords, reducing number of checks</span>
+
+	<span class="s2">/**</span>
+	 * Test for registerUser method Tests for registerUser method when username
+	 * already taken
+	 */
+	<span class="s1">@Test</span>
+	<span class="s0">public void </span><span class="s1">registerUserTest2() {</span>
+		DatabaseMethods.setupConnection()<span class="s0">;</span>
+
+		boolean <span class="s1">expected = </span><span class="s0">false;</span>
+		boolean <span class="s1">actual = DatabaseMethods.loginUser(</span><span class="s4">&quot;oscar&quot;</span><span class="s0">, </span><span class="s4">&quot;test &quot;</span><span class="s1">)</span><span class="s0">;</span>
+		<span class="s1">assertEquals(expected</span><span class="s0">, </span><span class="s1">actual)</span><span class="s0">;</span>
+
+	<span class="s1">}</span>
+
+	<span class="s2">/**</span>
+	 * Test for registerUser method Tests for registerUser method when user was
+	 * registered while testing the registerUser method Test for registerUser method
+	 * when username is testU
+	 */
+	<span class="s1">@Test</span>
+	<span class="s0">public void </span><span class="s1">registerUserTest3() {</span>
+		DatabaseMethods.setupConnection()<span class="s0">;</span>
+
+		boolean <span class="s1">expected = </span><span class="s0">false;</span>
+		boolean <span class="s1">actual = DatabaseMethods.loginUser(</span><span class="s4">&quot;testU&quot;</span><span class="s0">, </span><span class="s4">&quot;123456 &quot;</span><span class="s1">)</span><span class="s0">;</span>
+		<span class="s1">assertEquals(expected</span><span class="s0">, </span><span class="s1">actual)</span><span class="s0">;</span>
+
+	<span class="s1">}</span>
+
+	<span class="s2">/**</span>
+	 * Test for usernameTaken method While registering, usernameTaken method checks
+	 * to see if username already in database Test for usernameTaken method when
+	 * username already taken
+	 */
+	<span class="s1">@Test</span>
+	<span class="s0">public void </span><span class="s1">usernameTakenTest1() {</span>
+		DatabaseMethods.setupConnection()<span class="s0">;</span>
+
+		boolean <span class="s1">expected = </span><span class="s0">true;</span>
+		boolean <span class="s1">actual = DatabaseMethods.usernameTaken(</span><span class="s4">&quot;moomoo&quot;</span><span class="s1">)</span><span class="s0">;</span>
+		<span class="s1">assertEquals(expected</span><span class="s0">, </span><span class="s1">actual)</span><span class="s0">;</span>
+
+	<span class="s1">}</span>
+
+	<span class="s2">/**</span>
+	 * Test for usernameTaken method Test for usernameTaken method when username not
+	 * taken
+	 */
+	<span class="s1">@Test</span>
+	<span class="s0">public void </span><span class="s1">usernameTakenTest2() {</span>
+		DatabaseMethods.setupConnection()<span class="s0">;</span>
+
+		boolean <span class="s1">expected = </span><span class="s0">false;</span>
+		boolean <span class="s1">actual = DatabaseMethods.usernameTaken(</span><span class="s4">&quot;testUT&quot;</span><span class="s1">)</span><span class="s0">;</span>
+		<span class="s1">assertEquals(expected</span><span class="s0">, </span><span class="s1">actual)</span><span class="s0">;</span>
+
+	<span class="s1">}</span>
+
+}
+</pre>
+</body>
+</html>
